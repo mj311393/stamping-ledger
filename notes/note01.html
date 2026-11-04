@@ -155,4 +155,53 @@
 <li>模具三级保养 —— https://zl.fbzzw.cn/post/8197.html</li>
 <li>模具表面拉毛处理方法 CN111020451A —— https://patents.google.com/patent/CN111020451A/zh</li>
 </ol><div class="navlinks"><a href="notes.html">← 全部笔记</a><a href="note02.html">下一期 →</a></div></section><footer><b>冯国庆 · H0362</b><br>冲压车间技术学习笔记<br>现场数据为准，行业资料只用来解释现象</footer>
-</div></body></html>
+</div>
+<style id="gate-style">
+html.gate-locked body{visibility:hidden}
+html.gate-locked #gate,html.gate-locked #gate *{visibility:visible}
+#gate{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(160deg,#16202b,#243447 60%,#2c4557);padding:20px}
+#gate .box{width:100%;max-width:360px;background:#fff;border-radius:16px;padding:24px 22px;text-align:center;
+  box-shadow:0 18px 50px rgba(0,0,0,.35)}
+#gate .kk{font-size:11.5px;letter-spacing:.18em;color:#93a0ae;margin:0 0 8px}
+#gate h2{margin:0 0 4px;font-size:20px}
+#gate p{color:#6b7684;font-size:13.5px;margin:6px 0 16px}
+#gate input{width:100%;font:inherit;font-size:17px;padding:11px 14px;border:1px solid #e3e8ef;border-radius:11px;text-align:center}
+#gate button{width:100%;margin-top:12px;font:inherit;font-size:16px;font-weight:700;padding:11px;border:none;border-radius:11px;
+  background:#16202b;color:#fff;cursor:pointer}
+#gate .err{color:#b3253a;font-size:13px;margin-top:10px;min-height:18px}
+#gate .tip{color:#93a0ae;font-size:11.5px;margin-top:14px;line-height:1.5}
+</style>
+<div id="gate">
+  <div class="box">
+    <p class="kk">SAIC · STAMPING</p>
+    <h2>请输入访问口令</h2>
+    <p>冲压车间质量工作台账 · 内部资料</p>
+    <input id="gate-pw" type="password" inputmode="text" autocomplete="off" placeholder="口令">
+    <button id="gate-go">进入</button>
+    <div class="err" id="gate-err"></div>
+    <div class="tip">口令由车间内部掌握，请勿外传。</div>
+  </div>
+</div>
+<script>
+(function(){
+  var H = "e247b91ad36e56e2de99f3a7a3e65de635f39470b58ce51d439cc85886f07fef";
+  var doc = document.documentElement;
+  function unlock(){ doc.classList.remove("gate-locked"); var g=document.getElementById("gate"); if(g) g.remove(); }
+  try{ if(sessionStorage.getItem("sq_ok")==="1"){ unlock(); return; } }catch(e){}
+  doc.classList.add("gate-locked");
+  function go(){
+    var v = document.getElementById("gate-pw").value;
+    crypto.subtle.digest("SHA-256", new TextEncoder().encode(v)).then(function(buf){
+      var hex = Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,"0")}).join("");
+      if(hex === H){ try{ sessionStorage.setItem("sq_ok","1"); }catch(e){} unlock(); }
+      else { document.getElementById("gate-err").textContent = "口令不对，请重新输入"; }
+    });
+  }
+  document.getElementById("gate-go").addEventListener("click", go);
+  document.getElementById("gate-pw").addEventListener("keydown", function(e){ if(e.key==="Enter") go(); });
+  document.getElementById("gate-pw").focus();
+})();
+</script>
+<!--GATE-END-->
+</body></html>
