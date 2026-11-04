@@ -65,10 +65,9 @@ const grid=document.getElementById('grid'),cnt=document.getElementById('cnt');
 let cur='all',kw='';
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 function card(x){
-  const thumb = x.k==='v' ? x.poster.replace('/v/','/t/') : x.src.replace('/p/','/t/');
   const media = x.k==='v'
-    ? '<img src="'+thumb+'" loading="lazy" decoding="async" alt="'+esc(x.title)+'"><span class="play">▶</span>'
-    : '<img src="'+thumb+'" loading="lazy" decoding="async" alt="'+esc(x.title)+'">';
+    ? '<video src="'+x.src+'" poster="'+x.poster+'" preload="none" playsinline muted></video><span class="play">▶</span>'
+    : '<img src="'+x.src+'" loading="lazy" decoding="async" alt="'+esc(x.title)+'">';
   return '<article class="mcard" data-k="'+x.k+'" data-id="'+x.id+'">'+
    '<div class="thumb">'+media+'</div>'+
    '<div class="mbody"><div class="mtop"><span class="badge '+x.k+'">'+x.id+'</span><span class="kw">'+KIND[x.k]+'</span></div>'+
@@ -85,7 +84,7 @@ function open(id){
   const x=MEDIA.find(v=>v.id===id);if(!x)return;
   const media = x.k==='v'
     ? '<video src="'+x.src+'" poster="'+x.poster+'" controls autoplay playsinline style="max-height:68vh"></video>'
-    : '<img src="'+x.src.replace('/p/','/pw/').replace('.jpg','.webp')+'" alt="">';
+    : '<img src="'+x.src+'" alt="">';
   mbody.innerHTML='<div class="mhead"><span class="badge '+x.k+'">'+x.id+'</span><b>'+esc(x.title)+'</b></div>'+
     '<div class="mmeta">'+esc(x.date)+' '+esc(x.shift)+'　'+esc(x.prod)+'　'+KIND[x.k]+'　'+x.kb+' KB</div>'+
     media+
