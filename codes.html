@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>空工位拨码对照 · 冲压车间质量工作台账</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.conv{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin:14px 0}
+@media(max-width:640px){.conv{grid-template-columns:1fr;}}
+.conv input{width:100%;font:inherit;font-size:20px;font-weight:700;padding:12px 14px;border:1px solid #e3e8ef;border-radius:12px;text-align:center;letter-spacing:.06em}
+.conv .arrow{text-align:center;color:#6b7684;font-size:13px}
+.conv label{display:block;font-size:12.5px;color:#6b7684;margin-bottom:5px;text-align:center}
+.zones{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0}
+@media(max-width:760px){.zones{grid-template-columns:1fr}}
+.zone{border:1px solid #e3e8ef;border-radius:12px;overflow:hidden;background:#fff}
+.zhead{padding:8px 12px;font-size:13.5px;font-weight:800}
+table.zt{width:100%;border-collapse:collapse;font-size:14px;margin:0}
+table.zt th{padding:6px 8px;font-size:12px;color:#6b7684;background:#f8fafc;text-align:center}
+table.zt td{padding:6px 8px;text-align:center;border-top:1px solid #eef2f7;font-variant-numeric:tabular-nums}
+table.zt td b{color:#3f6c9e}
+.sheet{background:#fff;border:1px solid #e3e8ef;border-radius:14px;padding:10px;margin:12px 0}
+.sheet img{width:100%;height:auto;display:block;border-radius:8px;cursor:zoom-in}
+#lb{position:fixed;inset:0;background:rgba(10,16,24,.94);display:none;z-index:99;overflow:auto;padding:12px}
+#lb.on{display:block}
+#lb img{width:auto;max-width:none;display:block;margin:0 auto;border-radius:6px}
+#lb .bar{position:fixed;top:0;left:0;right:0;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;color:#fff;font-size:14px;background:linear-gradient(rgba(0,0,0,.55),transparent)}
+#lb .bar button{font:inherit;font-size:13px;padding:5px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;margin-left:8px;cursor:pointer}
+</style>
+</head><body>
+<header class="top"><div class="wrap">
+<p class="kicker">Stamping Workshop · Code Map</p>
+<h1>空工位拨码对照</h1>
+<p class="lede">ID 号 ↔ 拨码，一一对应，输一个就能换出另一个。拨码就是 ID 的十六进制写法（101 = 65，143 = 8F）。</p>
+<div class="meta"><span>冯国庆 · H0362</span><span>ID 101–143 · 共 43 个</span><span>与原表逐格一致</span></div>
+<nav class="tabs">
+<a href="index.html">概览</a><a href="taizhang.html">生产台账</a><a href="tongji.html">统计分析</a>
+<a href="gongzuo.html">日常工作内容</a><a href="notes.html">技术学习笔记</a>
+<a href="loading.html">上料位置</a><a href="stations.html">工位分布</a>
+<a href="codes.html" class="on">拨码对照</a><a href="media.html">成果展示</a>
+</nav>
+</div></header>
+<div class="wrap">
+
+<section class="card">
+  <h2><span class="n">21</span>现场快速换算</h2>
+  <p class="sub">左边填 ID 看拨码，右边填拨码看 ID，两边同时算。</p>
+  <div class="conv">
+    <div><label>ID 号</label><input id="ia" inputmode="numeric" placeholder="101"></div>
+    <div class="arrow">⇄</div>
+    <div><label>拨码（十六进制）</label><input id="ic" inputmode="text" placeholder="65"></div>
+  </div>
+  <p id="msg" style="color:#6b7684;font-size:13.5px;text-align:center"></p>
+  <div class="note"><b>规则：</b>拨码 = ID 号的十六进制表示，没有偏移、没有跳号。所以只要记住「十进制转十六进制」，整张表都能自己算出来。</div>
+</section>
+
+<section class="card">
+  <h2><span class="n">22</span>全表（按原表配色分区）</h2>
+  <p class="sub">粉区 101–116、黄区 117–129、绿区 130–143，与原表的分区一致。</p>
+  <div class="zones"><div class="zone">
+<div class="zhead" style="background:#fbe7ef;color:#b3253a">粉区 · ID 101–116</div>
+<table class="zt"><tr><th>ID</th><th>拨码</th><th>ID</th><th>拨码</th></tr><tr><td>101</td><td><b>65</b></td><td>101</td><td><b>65</b></td></tr><tr><td>102</td><td><b>66</b></td><td>102</td><td><b>66</b></td></tr><tr><td>103</td><td><b>67</b></td><td>103</td><td><b>67</b></td></tr><tr><td>104</td><td><b>68</b></td><td>104</td><td><b>68</b></td></tr><tr><td>105</td><td><b>69</b></td><td>105</td><td><b>69</b></td></tr><tr><td>106</td><td><b>6A</b></td><td>106</td><td><b>6A</b></td></tr><tr><td>107</td><td><b>6B</b></td><td>107</td><td><b>6B</b></td></tr><tr><td>108</td><td><b>6C</b></td><td>108</td><td><b>6C</b></td></tr><tr><td>109</td><td><b>6D</b></td><td>109</td><td><b>6D</b></td></tr><tr><td>110</td><td><b>6E</b></td><td>110</td><td><b>6E</b></td></tr><tr><td>111</td><td><b>6F</b></td><td>111</td><td><b>6F</b></td></tr><tr><td>112</td><td><b>70</b></td><td>112</td><td><b>70</b></td></tr><tr><td>113</td><td><b>71</b></td><td>113</td><td><b>71</b></td></tr><tr><td>114</td><td><b>72</b></td><td>114</td><td><b>72</b></td></tr><tr><td>115</td><td><b>73</b></td><td>115</td><td><b>73</b></td></tr><tr><td>116</td><td><b>74</b></td><td>116</td><td><b>74</b></td></tr></table>
+</div><div class="zone">
+<div class="zhead" style="background:#fdf3d6;color:#8a6a12">黄区 · ID 117–129</div>
+<table class="zt"><tr><th>ID</th><th>拨码</th><th>ID</th><th>拨码</th></tr><tr><td>117</td><td><b>75</b></td><td>117</td><td><b>75</b></td></tr><tr><td>118</td><td><b>76</b></td><td>118</td><td><b>76</b></td></tr><tr><td>119</td><td><b>77</b></td><td>119</td><td><b>77</b></td></tr><tr><td>120</td><td><b>78</b></td><td>120</td><td><b>78</b></td></tr><tr><td>121</td><td><b>79</b></td><td>121</td><td><b>79</b></td></tr><tr><td>122</td><td><b>7A</b></td><td>122</td><td><b>7A</b></td></tr><tr><td>123</td><td><b>7B</b></td><td>123</td><td><b>7B</b></td></tr><tr><td>124</td><td><b>7C</b></td><td>124</td><td><b>7C</b></td></tr><tr><td>125</td><td><b>7D</b></td><td>125</td><td><b>7D</b></td></tr><tr><td>126</td><td><b>7E</b></td><td>126</td><td><b>7E</b></td></tr><tr><td>127</td><td><b>7F</b></td><td>127</td><td><b>7F</b></td></tr><tr><td>128</td><td><b>80</b></td><td>128</td><td><b>80</b></td></tr><tr><td>129</td><td><b>81</b></td><td>129</td><td><b>81</b></td></tr></table>
+</div><div class="zone">
+<div class="zhead" style="background:#e2f1e4;color:#2c7f4f">绿区 · ID 130–143</div>
+<table class="zt"><tr><th>ID</th><th>拨码</th><th>ID</th><th>拨码</th></tr><tr><td>130</td><td><b>82</b></td><td>130</td><td><b>82</b></td></tr><tr><td>131</td><td><b>83</b></td><td>131</td><td><b>83</b></td></tr><tr><td>132</td><td><b>84</b></td><td>132</td><td><b>84</b></td></tr><tr><td>133</td><td><b>85</b></td><td>133</td><td><b>85</b></td></tr><tr><td>134</td><td><b>86</b></td><td>134</td><td><b>86</b></td></tr><tr><td>135</td><td><b>87</b></td><td>135</td><td><b>87</b></td></tr><tr><td>136</td><td><b>88</b></td><td>136</td><td><b>88</b></td></tr><tr><td>137</td><td><b>89</b></td><td>137</td><td><b>89</b></td></tr><tr><td>138</td><td><b>8A</b></td><td>138</td><td><b>8A</b></td></tr><tr><td>139</td><td><b>8B</b></td><td>139</td><td><b>8B</b></td></tr><tr><td>140</td><td><b>8C</b></td><td>140</td><td><b>8C</b></td></tr><tr><td>141</td><td><b>8D</b></td><td>141</td><td><b>8D</b></td></tr><tr><td>142</td><td><b>8E</b></td><td>142</td><td><b>8E</b></td></tr><tr><td>143</td><td><b>8F</b></td><td>143</td><td><b>8F</b></td></tr></table>
+</div></div>
+</section>
+
+<section class="card">
+  <h2><span class="n">23</span>原表</h2>
+  <p class="sub">点图放大核对；有疑问以这张原表为准。</p>
+  <div class="sheet"><img id="sheet" src="media/codes/chart.jpg" alt="空工位编码对照表"></div>
+  <p style="text-align:center;margin-top:10px"><a href="media/codes/chart_full.jpg" download>下载原尺寸图片（98 KB）</a></p>
+</section>
+
+<div id="lb"><div class="bar"><span>空工位编码对照表</span><span><button id="closelb">关闭</button></span></div><img src="media/codes/chart_full.jpg" alt=""></div>
+
+<footer><b>冯国庆 · H0362</b><br>冲压车间质量工作台账 · 空工位拨码对照<br>拨码＝ID 的十六进制写法，与原表一致</footer>
+</div>
+<script>
+const ia=document.getElementById('ia'), ic=document.getElementById('ic'), msg=document.getElementById('msg');
+function norm(s){return s.trim().toUpperCase().replace(/[^0-9A-F]/g,'');}
+ia.addEventListener('input',()=>{
+  const v=ia.value.replace(/[^0-9]/g,'');
+  if(!v){ic.value='';msg.textContent='';return;}
+  const n=parseInt(v,10);
+  if(isNaN(n)){msg.textContent='';return;}
+  ic.value=n.toString(16).toUpperCase();
+  msg.textContent = (n>=101&&n<=143) ? 'ID '+n+' → 拨码 '+ic.value : 'ID '+n+' 不在 101–143 范围内（表内没有这个号）';
+});
+ic.addEventListener('input',()=>{
+  const v=norm(ic.value);
+  if(!v){ia.value='';msg.textContent='';return;}
+  const n=parseInt(v,16);
+  ia.value=isNaN(n)?'':n;
+  msg.textContent = (n>=101&&n<=143) ? '拨码 '+v+' → ID '+n : '拨码 '+v+' 换算为 '+n+'，不在 101–143 范围内';
+});
+const lb=document.getElementById('lb');
+document.getElementById('sheet').addEventListener('click',()=>{lb.classList.add('on');document.body.style.overflow='hidden';});
+document.getElementById('closelb').addEventListener('click',()=>{lb.classList.remove('on');document.body.style.overflow='';});
+lb.addEventListener('click',e=>{if(e.target===lb){lb.classList.remove('on');document.body.style.overflow='';}});
+</script>
+</body></html>
