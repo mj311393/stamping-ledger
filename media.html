@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>成果展示 · 冲压车间质量工作台账</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+#chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+#chips button{font:inherit;font-size:13.5px;padding:6px 14px;border-radius:999px;border:1px solid #e3e8ef;background:#fff;color:#16202b;cursor:pointer}
+#chips button.on{background:#16202b;color:#fff;border-color:#16202b}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin:14px 0}
+.mcard{background:#fff;border:1px solid #e3e8ef;border-radius:14px;overflow:hidden;cursor:pointer;transition:.15s}
+.mcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(22,32,43,.08)}
+.thumb{position:relative;aspect-ratio:4/3;background:#eef2f7;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.thumb img,.thumb video{width:100%;height:100%;object-fit:cover;display:block}
+.play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px;background:rgba(22,32,43,.28)}
+.mbody{padding:10px 12px 12px}
+.mtop{display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.badge{font-size:11.5px;font-weight:800;padding:1px 7px;border-radius:6px;background:#eaf1f8;color:#3f6c9e}
+.badge.e{background:#fdf3e6;color:#c98a3f}.badge.v{background:#fbeaee;color:#b3253a}
+.kw{font-size:11.5px;color:#93a0ae}
+.mbody b{display:block;font-size:14px;line-height:1.45}
+.mrow{color:#6b7684;font-size:12.5px;margin-top:4px}
+#modal{position:fixed;inset:0;background:rgba(12,18,26,.82);display:none;align-items:center;justify-content:center;padding:16px;z-index:99}
+#modal.on{display:flex}
+#mwrap{background:#fff;border-radius:16px;max-width:900px;width:100%;max-height:92vh;overflow:auto;padding:16px 18px 22px;position:relative}
+#close{position:absolute;top:10px;right:14px;font-size:26px;line-height:1;cursor:pointer;color:#6b7684;background:none;border:none}
+#mbody img,#mbody video{width:100%;height:auto;border-radius:10px;margin:10px 0;display:block;background:#000}
+.mhead{display:flex;gap:8px;align-items:center;font-size:16px;padding-right:26px}
+.mmeta{color:#6b7684;font-size:13px;margin:6px 0 2px}
+.mtext{font-size:14px;color:#3c4a58;margin:8px 0}
+.mtext.note{color:#6b7684;font-size:13px;border-left:3px solid #e3e8ef;padding-left:10px}
+</style>
+</head><body>
+<header class="top"><div class="wrap">
+<p class="kicker">Stamping Workshop · Media</p>
+<h1>成果展示</h1>
+<p class="lede">现场照片与调整前后的对比视频——每条都挂着编号，能追到台账里的那一行。</p>
+<div class="meta"><span>冯国庆 · H0362</span><span>照片 28 张 · 视频 8 段</span></div>
+<nav class="tabs">
+<a href="index.html">概览</a><a href="taizhang.html">生产台账</a><a href="tongji.html">统计分析</a>
+<a href="gongzuo.html">日常工作内容</a><a href="notes.html">技术学习笔记</a><a href="media.html" class="on">成果展示</a>
+</nav>
+</div></header>
+<div class="wrap">
+<section class="card">
+  <h2><span class="n">16</span>现场影像</h2>
+  <p class="sub">按编号排列；点开看大图或播放视频；P＝现场照片、V＝现场视频。</p>
+  <div id="chips">
+    <button class="on" data-k="all">全部</button>
+    <button data-k="p">现场照片 28</button>
+    <button data-k="v">现场视频 8</button>
+  </div>
+  <input id="q" type="search" placeholder="搜编号 / 产品 / 关键词，如 P25、CBF4、叠边" style="width:100%;font:inherit;font-size:14px;padding:9px 12px;border:1px solid #e3e8ef;border-radius:10px">
+  <p class="count" id="cnt"></p>
+</section>
+<div id="grid"></div>
+<div id="modal"><div id="mwrap"><button id="close">×</button><div id="mbody"></div></div></div>
+
+<script src="assets/media.js"></script>
+<script>
+const KIND={p:'现场照片',v:'现场视频'};
+const grid=document.getElementById('grid'),cnt=document.getElementById('cnt');
+let cur='all',kw='';
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function card(x){
+  const media = x.k==='v'
+    ? '<video src="'+x.src+'" poster="'+x.poster+'" preload="none" playsinline muted></video><span class="play">▶</span>'
+    : '<img src="'+x.src+'" loading="lazy" alt="'+esc(x.title)+'">';
+  return '<article class="mcard" data-k="'+x.k+'" data-id="'+x.id+'">'+
+   '<div class="thumb">'+media+'</div>'+
+   '<div class="mbody"><div class="mtop"><span class="badge '+x.k+'">'+x.id+'</span><span class="kw">'+KIND[x.k]+'</span></div>'+
+   '<b>'+esc(x.title)+'</b><div class="mrow">'+esc(x.date)+' '+esc(x.shift)+'　'+esc(x.prod)+'</div></div></article>';
+}
+function render(){
+  const list=MEDIA.filter(x=>(cur==='all'||x.k===cur)&&(!kw||((x.title+x.prod+x.desc+x.note+x.id).toLowerCase().includes(kw))));
+  grid.innerHTML=list.map(card).join('')||'<p style="color:#6b7684">没有匹配的内容。</p>';
+  cnt.textContent='共 '+list.length+' 项（照片 '+MEDIA.filter(x=>x.k==='p').length / 视频 '+MEDIA.filter(x=>x.k==='v').length+'）';
+  document.querySelectorAll('.mcard').forEach(el=>el.addEventListener('click',()=>open(el.dataset.id)));
+}
+const modal=document.getElementById('modal'),mbody=document.getElementById('mbody');
+function open(id){
+  const x=MEDIA.find(v=>v.id===id);if(!x)return;
+  const media = x.k==='v'
+    ? '<video src="'+x.src+'" poster="'+x.poster+'" controls autoplay playsinline style="max-height:68vh"></video>'
+    : '<img src="'+x.src+'" alt="">';
+  mbody.innerHTML='<div class="mhead"><span class="badge '+x.k+'">'+x.id+'</span><b>'+esc(x.title)+'</b></div>'+
+    '<div class="mmeta">'+esc(x.date)+' '+esc(x.shift)+'　'+esc(x.prod)+'　'+KIND[x.k]+'　'+x.kb+' KB</div>'+
+    media+
+    '<p class="mtext">'+esc(x.desc||'')+'</p>'+
+    (x.note?'<p class="mtext note">'+esc(x.note)+'</p>':'');
+  modal.classList.add('on');
+}
+document.getElementById('close').addEventListener('click',()=>{modal.classList.remove('on');mbody.innerHTML='';});
+modal.addEventListener('click',e=>{if(e.target===modal){modal.classList.remove('on');mbody.innerHTML='';}});
+document.querySelectorAll('#chips button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('#chips button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  cur=b.dataset.k;render();}));
+document.getElementById('q').addEventListener('input',e=>{kw=e.target.value.trim().toLowerCase();render();});
+render();
+</script>
+
+<footer><b>冯国庆 · H0362</b><br>冲压车间质量工作台账 · 成果展示<br>影像为现场记录，编号与台账条目对应</footer>
+</div></body></html>

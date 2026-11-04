@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="按批次逐条列出产品与问题原文、处置措施、当前状态与耗时。">
+<title>生产台账 · 冲压车间质量工作台账</title>
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header class="top"><div class="wrap">
+<p class="kicker">Stamping Workshop · Quality Log</p>
+<h1>冲压车间质量工作台账</h1>
+<p class="lede">按批次逐条列出产品与问题原文、处置措施、当前状态与耗时。</p>
+<div class="meta"><span>冯国庆 · H0362</span><span>舒勒高速自动线 · 南京江宁</span><span>数据截至 11月4日</span></div>
+<nav class="tabs">
+<a href="index.html" class="">概览</a>
+<a href="taizhang.html" class="on">生产台账</a>
+<a href="tongji.html" class="">统计分析</a>
+<a href="gongzuo.html" class="">日常工作内容</a>
+<a href="notes.html" class="">技术学习笔记</a>
+<a href="media.html" class="">成果展示</a>
+</nav>
+</div></header>
+<div class="wrap">
+
+<section class="card">
+  <h2><span class="n">05</span>生产台账（全部 26 批 · 223 条）</h2>
+  <p class="sub">搜产品名或关键词；状态筛「仅看未闭环」＝所有还挂着的条目。</p>
+  <div class="filters">
+    <input id="q" type="search" placeholder="搜产品名 / 工序 / 现象，如 4PR叶子板、op20卡废、叠边">
+    <select id="st"><option value="all">全部状态</option><option value="open">仅看未闭环</option><option value="done">仅看已闭环</option></select>
+    <select id="bt"><option value="all">全部批次</option></select>
+  </div>
+  <p class="count" id="cnt"></p>
+</section>
+<div id="list"></div>
+
+<script src="assets/data.js"></script>
+<script>
+const q=document.getElementById('q'),st=document.getElementById('st'),bt=document.getElementById('bt'),list=document.getElementById('list'),cnt=document.getElementById('cnt');
+LEDGER.batches.forEach((b,i)=>{const o=document.createElement('option');o.value=i;o.textContent=b.date+' '+b.shift;bt.appendChild(o);});
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function render(){
+  const kw=q.value.trim().toLowerCase(),sv=st.value,bv=bt.value;
+  let shown=0,probs=0,opens=0,html='';
+  LEDGER.batches.forEach((b,i)=>{
+    if(bv!=='all'&&String(i)!==bv)return;
+    let inner='',bcount=0,bopen=0;
+    b.products.forEach(p=>{
+      const pname=p.name.toLowerCase();
+      let ph='',pc=0,po=0;
+      p.problems.forEach(x=>{
+        const open=x.open;
+        if(sv==='open'&&!open)return;
+        if(sv==='done'&&open)return;
+        if(kw){
+          const hay=(pname+' '+(x.type||'')+' '+(x.proc||'')+' '+(x.desc||'')+' '+(x.action||'')+' '+(x.status||'')).toLowerCase();
+          if(hay.indexOf(kw)<0)return;
+        }
+        pc++;if(open)po++;
+        ph+='<div class="prob '+(open?'openp':'')+'"><div class="t"><span class="tag type">'+esc(x.type||'未分类')+'</span>'+esc(x.proc)+'</div>'+
+            '<div class="d"><span class="lbl">现象：</span>'+esc(x.desc)+'</div>'+
+            '<div class="a"><span class="lbl">措施：</span>'+esc(x.action)+'</div>'+
+            '<div class="s"><span class="tag '+(open?'open':'done')+'">'+esc(x.status||'—')+'</span>'+
+            (x.time?' 耗时 '+esc(x.time):'')+(x.evid?'　证据 '+esc(x.evid):'')+'</div></div>';
+      });
+      if(!pc&&kw)return;
+      bcount+=pc;bopen+=po;
+      const facts=[p.speed?'线速 '+p.speed:'',p.time?'生产 '+p.time:'',p.qty?p.qty+' 件':'',('首末件 '+(p.first||'—')),('分区 '+(p.zone||'—')),('抽检 '+(p.spot||'—'))].filter(Boolean).join('　·　');
+      inner+='<div class="prod"><h4>'+esc(p.name)+'</h4><div class="facts">'+esc(facts)+'</div>'+(ph||'<div class="prob"><span style="color:#6b7684">本批次无符合条件的问题</span></div>')+'</div>';
+    });
+    if(!inner)return;
+    shown++;probs+=bcount;opens+=bopen;
+    html+='<details class="batch"'+(bv!=='all'?' open':'')+'><summary><span class="d">'+esc(b.date)+' · '+esc(b.shift)+'</span>'+
+          '<span class="ln">'+esc(b.products.map(p=>p.name).join('、'))+'</span>'+
+          '<span class="tag '+(bopen?'open':'done')+'">'+bcount+' 条 / 挂 '+bopen+'</span></summary>'+inner+'</details>';
+  });
+  list.innerHTML=html||'<section class="card"><p style="color:#6b7684">没有匹配的记录，换个关键词试试。</p></section>';
+  cnt.textContent='命中 '+shown+' 个批次，'+probs+' 条问题，其中未闭环 '+opens+' 条。';
+}
+[q,st,bt].forEach(el=>el.addEventListener('input',render));
+render();
+</script>
+<footer><b>冯国庆 · H0362</b><br>冲压车间质量工作台账 · 页面内容随台账更新<br>口径：现场记录原话为准，跨批次对比一律折算「分/百件」</footer>
+</div></body></html>

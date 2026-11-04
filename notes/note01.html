@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>冲压车间技术资料·学习笔记 01</title>
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+.article h2{font-size:20px;margin:26px 0 8px}
+.article h3{font-size:17px;margin:22px 0 6px}
+.article h4{font-size:15.5px;margin:18px 0 6px}
+.article h5{font-size:14.5px;margin:16px 0 6px;color:#3c4a58}
+.article p{margin:9px 0}
+.article ul,.article ol{margin:8px 0;padding-left:22px}
+.article li{margin:5px 0}
+.article blockquote{margin:10px 0;padding:9px 14px;background:#f4f7fa;border-left:3px solid #cbd6e2;color:#4a5768;border-radius:0 8px 8px 0}
+.article code{font-family:ui-monospace,Menlo,Consolas,monospace;background:#eef2f7;padding:1px 5px;border-radius:5px;font-size:13.5px}
+.article hr{border:none;border-top:1px solid #e3e8ef;margin:22px 0}
+.article img{max-width:100%;height:auto;border-radius:8px}
+.toc{background:#f8fafc;border:1px solid #e3e8ef;border-radius:12px;padding:12px 16px;margin:16px 0;font-size:14px}
+.toc b{display:block;margin-bottom:6px;font-size:13px;color:#6b7684;letter-spacing:.05em}
+.toc a{display:block;padding:3px 0;color:#3f6c9e}
+.navlinks{display:flex;justify-content:space-between;gap:10px;margin:18px 0 0;font-size:14px}
+</style>
+</head><body>
+<header class="top"><div class="wrap">
+<p class="kicker">Stamping Technology Notes</p>
+<h1>冲压车间技术资料·学习笔记 01</h1>
+<p class="lede">冲压车间技术学习笔记</p>
+<nav class="tabs"><a href="index.html" class="">概览</a><a href="taizhang.html" class="">生产台账</a><a href="tongji.html" class="">统计分析</a><a href="gongzuo.html" class="">日常工作内容</a><a href="notes.html" class="on">技术学习笔记</a><a href="media.html" class="">成果展示</a></nav>
+</div></header>
+<div class="wrap">
+<section class="card article"><div style="color:#6b7684;font-size:13.5px;margin-bottom:8px">2026-10-11　·　冯国庆 H0362</div><div class="toc"><b>本页目录</b><a href="#s1">一、先记住我们线的三条背景认知</a><a href="#s2">二、清洁度三关（杂质来源地图）</a><a href="#s3">三、清洗机专项：洗完仍不好，往这 10 条上查</a><a href="#s4">四、环境与制度层面的长期措施</a><a href="#s5">五、线速 13→10 与线尾装箱专题（对应问题一）</a><a href="#s6">六、下次继续深挖的清单（学习路线）</a><a href="#s7">七、来源清单（均已抓存原文，见 raw/ 目录）</a></div><p><b>主题：外覆盖件表面清洁度（坑包／星点／满天星）＋ 高速线节拍瓶颈</b></p>
+<p>整理日期：2026-10-11　整理人：桃子（为 fgq 主人）</p>
+<p>适用产线：舒勒（Schuler）国内第一条高速自动线 · 南京江宁 · 现属上汽大乘用车</p>
+<hr>
+<h3>一、先记住我们线的三条背景认知</h3>
+<ol>
+<li><b>这是舒勒的高速自动线</b>——高速线对"节拍"和"一次合格率（FTC）"同时敏感。速度提上去，线尾装箱、输送、搬运任何一个环节跟不上，整线就得降速陪跑。</li>
+<li><b>高速线对清洁度的容错更低</b>。同一条线，脏一点的料在低速线上可能还能凑合，在高速线上会被放大成批量坑包、停线擦模。</li>
+<li><b>外覆盖件的问题，八成先怀疑清洁度，而不是先怀疑模具精度</b>。行业数据：北京奔驰冲压工厂 2019 年质量统计，拉延模（OP10）<b>异物硌伤造成的返修占到总返修数的 60% 以上</b>，生产时清洁 OP10 造成的停机也严重拉低 OEE。</li>
+</ol>
+<blockquote>一句话：外覆盖件的坑包、星点、满天星 ≈ 杂质（铁屑／纸屑／粉尘／油污结块）进了板料与模具型面之间。查问题就是查"杂质从哪来"。</blockquote>
+<hr>
+<h3>二、清洁度三关（杂质来源地图）</h3>
+<p>行业通行的划分：<b>钢板（来料）清洁、线首设备清洁、模具清洁</b>——三关都要守住，缺一关就会漏。</p>
+<h4>第 1 关：来料／板料（今天问题的重灾区）</h4>
+<ul>
+<li>整包板料<b>上线前不落地</b>，外包装保持清洁；</li>
+<li>拆包时防止包装纸屑掉到板面，<b>拆包后第一件事：用擦模纸擦首张板料上表面</b>；</li>
+<li>用风枪／铁刷清理钢板<b>侧面和切面</b>夹带的纸屑、铁屑；</li>
+<li>检查钢板切边毛刺：毛刺大、易掉，会直接抬高清模频次（毛刺由开卷落料工序控制，异常要拉上游查）；</li>
+<li>每包料落料时最下层最好垫一张清洁垫板，<b>垫板严禁当正常料用</b>，退废料箱；</li>
+<li>开卷下料后的材料及时投产，暂存的要防污染运输储存。</li>
+</ul>
+<p><b>关键判据（今天正好命中）</b>：如果模具型面和板料两侧都干净，拉延件表面还是严重星点——这种材料就不适合做大型外覆盖件，<b>要通知材料供应商解决</b>。今天"来料附着垃圾多＋清洗机洗完仍不好＋深擦模两次无改善"，正是这条判据的现场版：根子不在模具，在料。</p>
+<h4>第 2 关：线首设备（按实物流动方向一个一个查）</h4>
+<table>
+<tr><th>环节</th><th>风险点</th><th>对策</th></tr>
+<tr><td>磁力分张器</td><td>与板料侧面直接摩擦，带铁屑</td><td>每次使用前擦拭清洁</td></tr>
+<tr><td>吸盘（拆垛手／机械手）</td><td>长期使用附着油污，抓起时污染板面</td><td>每批次生产前清洁，或定期清洁</td></tr>
+<tr><td>皮带机</td><td>与板料接触面积最大，表面/内侧油污</td><td>定期在线清理；备件足时离线深度清洁；日常查开裂与松紧度</td></tr>
+<tr><td>清洗机</td><td>控制清洁度的<b>最关键一环</b></td><td>见下文专项</td></tr>
+</table>
+<blockquote>行业经验：<b>没有清洗机的产线，因清洁度导致的停线率大约是有清洗机产线的一倍</b>——所以清洗机是命门，但它也只是"清洗能力有上限"的设备。</blockquote>
+<h4>第 3 关：模具</h4>
+<p>每批次结束下模后，清洁度专项保养至少包括：</p>
+<ul>
+<li>型面无油污、无杂质、无凹凸点及烧结；有凹凸点／烧结要对应检查零件状态再处理型面；</li>
+<li><b>拉延模筋条、键槽周边无铁屑</b>（这是外覆盖件凸凹点的高发区）；</li>
+<li>工作型面光滑无拉伤，补焊部位无高度差；</li>
+<li>结构面无油污杂物、无新增裂纹、无砂眼；</li>
+<li>铬层无破损，用手摸棱线、R 角、拉延筋及筋槽 R 角过渡要圆顺；</li>
+<li>用砂布保养前先用美纹纸／塑料胶塞封堵气孔。</li>
+</ul>
+<hr>
+<h3>三、清洗机专项：洗完仍不好，往这 10 条上查</h3>
+<h4>3.1 先分清机型</h4>
+<ul>
+<li><b>湿式清洗机</b>：清洗油喷淋＋刷辊刷洗＋挤干辊挤干。问题：油雾污染环境、残油量难控、残油影响拉延模 OP10 的板料流动。</li>
+<li><b>干式清洗机</b>：核心是条形清洁刷，配合 Wandres Ingromat 微湿润工艺（刷丝表面喷极薄的抗静电清洁剂膜），微粒被刷走，板面保持干燥；<b>还能消除板面静电荷，防止板料二次吸附环境粉尘</b>。北京奔驰 MFA 冲压车间 2017 年起在伺服线上用了干式清洗机。</li>
+</ul>
+<h4>3.2 板料清洗效果——内部 8 项自检（洗不干净就逐条对）</h4>
+<ol>
+<li><b>清洗油油质</b>（是否该换了）；</li>
+<li><b>过滤系统</b>：过滤袋每周检查更换，过滤精度要到 5–20 μm；</li>
+<li><b>刷辊重合度</b>：验证法——板料上放一张纸，刷辊按设定重合度下降，应压出一道<b>均匀压痕</b>，证明上下刷辊都接触板面；</li>
+<li><b>刷辊转速</b>；</li>
+<li><b>刷辊完整性／磨损</b>：验证法——用记号笔在钢板上画线，过一遍刷辊工序，看画线是否消除、消除是否均匀；</li>
+<li><b>喷油角度</b>；</li>
+<li><b>喷油量</b>；</li>
+<li><b>清洗机内部清洁</b>：清洗油箱定期清理（温水喷雾清洁辊子、机身、油箱、过滤网、管路，清储箱壁／底部／加热器／电磁粘合板／溢流保护网，清水放干）。</li>
+</ol>
+<ul>
+<li>补充：油品定期更换、挤干辊多为无纺布辊，靠压力调节控制油膜厚度，<b>油膜太厚对后续生产影响大</b>。</li>
+</ul>
+<h4>3.3 有一点必须说清（今天的关键）</h4>
+<p>清洗机<b>单位时间的清洗能力是固定的</b>：板料本身越脏，洗完残留在板料上的异物就越多。清洗机不是"漂白机"——来料超过它的清洗能力，洗完仍然是脏的。外部因素靠<b>来料检查＋清洗环境 5S</b> 控制，内部因素靠上面 8 条参数控制。</p>
+<h4>3.4 油膜厚度（顺手一起管）</h4>
+<ul>
+<li>内／外因素：来料板料油膜与线速（挤干速度跟线速匹配，单位时间挤干油量固定，来料油膜厚则残留多）、板料尺寸（板越大挤干越差、拼焊/双垛料在厚薄交接处挤不干）、清洗油油品（黏度小好挤干但闪点低、防锈差）、室温、挤干压力、挤干辊材料与使用年限。</li>
+<li>油温一般设 <b>30–40 ℃</b>；涂油分轻／中／重，对应 0.5–1.0、1.0–1.5、1.5–2.0 g/m²。</li>
+<li>测量：称重法、凸镜法（凸镜放油斑上，侧光照出圆形亮斑，按刻度读厚度）。</li>
+</ul>
+<hr>
+<h3>四、环境与制度层面的长期措施</h3>
+<ul>
+<li>大面板冲压车间／线尽量封闭，<b>防止灰尘飘入线体</b>；</li>
+<li>拆包、垫板、首张擦拭、切面清理这些动作固化成 SOP，别靠人记；</li>
+<li>拉延模每次"下模保养"把清洁度专项列成检查表；</li>
+<li>模具使用一段时间后<b>重新镀铬</b>；</li>
+<li>模具结构上可设计／加装<b>吹气管</b>，用压缩空气把切粉吹出模腔；</li>
+<li>手工搬运覆盖件时戴专用防割手套（避免布屑、汗渍污染）。</li>
+</ul>
+<hr>
+<h3>五、线速 13→10 与线尾装箱专题（对应问题一）</h3>
+<ul>
+<li>现象：线速从 13 降到 10，主因是<b>线尾装箱跟不上</b>，产品易变形、不好拿取；临时对策建议改装箱朝向。</li>
+<li>行业成熟解法：<b>线尾 3D 视觉引导自动装箱</b>——3D 相机（如 Mech-Eye LSR L-THR 一类的工业级激光 3D 相机）对反光、异形冲压件输出点云，靠料箱关键特征（立柱、卡槽）算出每个件的放置位姿；优势：</li>
+</ul>
+<ol>
+<li>一次拍照定位料箱，<b>视觉处理时间不占生产节拍</b>；</li>
+<li>兼容全类型、全尺寸、有到货偏差的料箱，<b>可用低精度料箱和低精度搬运设备</b>，省料箱制作维护成本；</li>
+<li>能检测料箱变形／尺寸超差并报警，避免工艺浪费与停线。</li>
+</ol>
+<ul>
+<li>落到我们线上的判断链：先分清瓶颈是"人拿取动作慢／件易变形"还是"料箱与摆放姿态限制"。若是后者，改料箱朝向／改料架是低成本的；若要根治，3D 视觉引导自动装箱是可论证的长期方向（可先做单工位试点）。</li>
+<li>另外：产品易变形 + 不好拿取，也应复核 <b>端拾器（EOAT）吸盘布置与抓取姿态</b>，以及下线高度／翻转方式。</li>
+</ul>
+<hr>
+<h3>六、下次继续深挖的清单（学习路线）</h3>
+<ol>
+<li>舒勒高速伺服线的结构特点（Servoline 系列、多工位、滑块曲线与节拍关系）；</li>
+<li>拉延油／涂油量与麻点、拉毛的定量关系（涂油标准与涂装过车试验）；</li>
+<li>板料清洁度检验的量化方法（白布擦拭法、颗粒度分级、GB/T 41481-2022 道路车辆清洁度）；</li>
+<li>端拾器（EOAT）吸盘选型与松脱对策（含真空度监控报警）；</li>
+<li>高速线 OEE／FTC 的现场统计口径与改善案例；</li>
+<li>模具表面拉毛的处理方法（如 CN111020451A 一类专利思路）与镀铬周期管理。</li>
+</ol>
+<hr>
+<h3>七、来源清单（均已抓存原文，见 raw/ 目录）</h3>
+<ol>
+<li>冲压过程中的清洁度控制 —— AI《汽车制造业》2024-10-18　https://auto.jgvogel.cn/c1452437.shtml</li>
+<li>干式清洗机在外覆盖件冲压生产中的应用 —— 2021-08-14　https://auto.jgvogel.cn/c/2021-08-14/1127194.shtml</li>
+<li>冲压板料清洗效果和清洗油膜厚度控制 —— 2019-06-10　https://auto.jgvogel.cn/c/2019-06-10/957358.shtml</li>
+<li>冲压外覆盖件生产过程的质量控制 —— 中国金属成形网　http://china-metalform.com/news/show1_4538.html</li>
+<li>汽车冲压件表面星点的主要原因及预防措施 —— 靖江宏途机械　http://www.htjxc.com.cn/news/48.html</li>
+<li>3D 视觉在汽车制造冲压线尾自动装箱中的应用 —— 梅卡曼德　https://www.sohu.com/a/740068349_121119003</li>
+<li>舒勒伺服冲压线 SERVOLINE 资料 —— 舒勒官网　https://www.schulergroup.com/major/cn/technologien/produkte/pressenlinien_servo/index.html</li>
+<li>舒勒高速伺服冲压线 —— 舒勒官网　http://www.schulergroup.com/major/cn/technologien/produkte/highlight_servopressenlinie/index.html</li>
+<li>冲压模具常用标准与中英文对照 —— https://auto.jgvogel.cn/c1495089.shtml</li>
+<li>金属冲压工艺的 20 种缺陷 —— Neway Precision　https://www.newayprecision.com/zh/services/sheet-metal-stamping/faq-20-defects-of-the-metal-stamping-process</li>
+<li>常用的汽车冲压件检验方法 —— https://auto.jgvogel.cn/c/2020-09-24/1058718.shtml</li>
+<li>端拾器（EOAT）相关技术文章 —— https://auto.jgvogel.cn/c/2011-03-02/701309.shtml</li>
+<li>模具三级保养 —— https://zl.fbzzw.cn/post/8197.html</li>
+<li>模具表面拉毛处理方法 CN111020451A —— https://patents.google.com/patent/CN111020451A/zh</li>
+</ol><div class="navlinks"><a href="notes.html">← 全部笔记</a><a href="note02.html">下一期 →</a></div></section><footer><b>冯国庆 · H0362</b><br>冲压车间技术学习笔记<br>现场数据为准，行业资料只用来解释现象</footer>
+</div></body></html>
