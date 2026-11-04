@@ -11,14 +11,12 @@
 .conv input{width:100%;font:inherit;font-size:20px;font-weight:700;padding:12px 14px;border:1px solid #e3e8ef;border-radius:12px;text-align:center;letter-spacing:.06em}
 .conv .arrow{text-align:center;color:#6b7684;font-size:13px}
 .conv label{display:block;font-size:12.5px;color:#6b7684;margin-bottom:5px;text-align:center}
-.zones{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0}
-@media(max-width:760px){.zones{grid-template-columns:1fr}}
-.zone{border:1px solid #e3e8ef;border-radius:12px;overflow:hidden;background:#fff}
-.zhead{padding:8px 12px;font-size:13.5px;font-weight:800}
-table.zt{width:100%;border-collapse:collapse;font-size:14px;margin:0}
-table.zt th{padding:6px 8px;font-size:12px;color:#6b7684;background:#f8fafc;text-align:center}
-table.zt td{padding:6px 8px;text-align:center;border-top:1px solid #eef2f7;font-variant-numeric:tabular-nums}
-table.zt td b{color:#3f6c9e}
+table.one{width:100%;border-collapse:collapse;font-size:15px;margin:10px 0;border:1px solid #e3e8ef;border-radius:12px;overflow:hidden}
+table.one th{padding:9px 10px;font-size:12.5px;color:#6b7684;background:#f8fafc;text-align:left;font-weight:700}
+table.one td{padding:8px 10px;border-top:1px solid rgba(0,0,0,.05);font-variant-numeric:tabular-nums}
+table.one td.idc{font-weight:700}
+table.one td.cdc{font-weight:800;color:#1b2430;letter-spacing:.04em}
+.zchip{display:inline-block;font-size:11.5px;font-weight:800;color:#fff;padding:1px 8px;border-radius:999px}
 .sheet{background:#fff;border:1px solid #e3e8ef;border-radius:14px;padding:10px;margin:12px 0}
 .sheet img{width:100%;height:auto;display:block;border-radius:8px;cursor:zoom-in}
 #lb{position:fixed;inset:0;background:rgba(10,16,24,.94);display:none;z-index:99;overflow:auto;padding:12px}
@@ -44,7 +42,7 @@ table.zt td b{color:#3f6c9e}
 
 <section class="card">
   <h2><span class="n">21</span>现场快速换算</h2>
-  <p class="sub">左边填 ID 看拨码，右边填拨码看 ID，两边同时算。</p>
+  <p class="sub">填一个，另一个自动跟着变：填 ID 出拨码，填拨码出 ID。</p>
   <div class="conv">
     <div><label>ID 号</label><input id="ia" inputmode="numeric" placeholder="101"></div>
     <div class="arrow">⇄</div>
@@ -55,18 +53,9 @@ table.zt td b{color:#3f6c9e}
 </section>
 
 <section class="card">
-  <h2><span class="n">22</span>全表（按原表配色分区）</h2>
-  <p class="sub">粉区 101–116、黄区 117–129、绿区 130–143，与原表的分区一致。</p>
-  <div class="zones"><div class="zone">
-<div class="zhead" style="background:#fbe7ef;color:#b3253a">粉区 · ID 101–116</div>
-<table class="zt"><tr><th>ID</th><th>拨码</th><th>ID</th><th>拨码</th></tr><tr><td>101</td><td><b>65</b></td><td>101</td><td><b>65</b></td></tr><tr><td>102</td><td><b>66</b></td><td>102</td><td><b>66</b></td></tr><tr><td>103</td><td><b>67</b></td><td>103</td><td><b>67</b></td></tr><tr><td>104</td><td><b>68</b></td><td>104</td><td><b>68</b></td></tr><tr><td>105</td><td><b>69</b></td><td>105</td><td><b>69</b></td></tr><tr><td>106</td><td><b>6A</b></td><td>106</td><td><b>6A</b></td></tr><tr><td>107</td><td><b>6B</b></td><td>107</td><td><b>6B</b></td></tr><tr><td>108</td><td><b>6C</b></td><td>108</td><td><b>6C</b></td></tr><tr><td>109</td><td><b>6D</b></td><td>109</td><td><b>6D</b></td></tr><tr><td>110</td><td><b>6E</b></td><td>110</td><td><b>6E</b></td></tr><tr><td>111</td><td><b>6F</b></td><td>111</td><td><b>6F</b></td></tr><tr><td>112</td><td><b>70</b></td><td>112</td><td><b>70</b></td></tr><tr><td>113</td><td><b>71</b></td><td>113</td><td><b>71</b></td></tr><tr><td>114</td><td><b>72</b></td><td>114</td><td><b>72</b></td></tr><tr><td>115</td><td><b>73</b></td><td>115</td><td><b>73</b></td></tr><tr><td>116</td><td><b>74</b></td><td>116</td><td><b>74</b></td></tr></table>
-</div><div class="zone">
-<div class="zhead" style="background:#fdf3d6;color:#8a6a12">黄区 · ID 117–129</div>
-<table class="zt"><tr><th>ID</th><th>拨码</th><th>ID</th><th>拨码</th></tr><tr><td>117</td><td><b>75</b></td><td>117</td><td><b>75</b></td></tr><tr><td>118</td><td><b>76</b></td><td>118</td><td><b>76</b></td></tr><tr><td>119</td><td><b>77</b></td><td>119</td><td><b>77</b></td></tr><tr><td>120</td><td><b>78</b></td><td>120</td><td><b>78</b></td></tr><tr><td>121</td><td><b>79</b></td><td>121</td><td><b>79</b></td></tr><tr><td>122</td><td><b>7A</b></td><td>122</td><td><b>7A</b></td></tr><tr><td>123</td><td><b>7B</b></td><td>123</td><td><b>7B</b></td></tr><tr><td>124</td><td><b>7C</b></td><td>124</td><td><b>7C</b></td></tr><tr><td>125</td><td><b>7D</b></td><td>125</td><td><b>7D</b></td></tr><tr><td>126</td><td><b>7E</b></td><td>126</td><td><b>7E</b></td></tr><tr><td>127</td><td><b>7F</b></td><td>127</td><td><b>7F</b></td></tr><tr><td>128</td><td><b>80</b></td><td>128</td><td><b>80</b></td></tr><tr><td>129</td><td><b>81</b></td><td>129</td><td><b>81</b></td></tr></table>
-</div><div class="zone">
-<div class="zhead" style="background:#e2f1e4;color:#2c7f4f">绿区 · ID 130–143</div>
-<table class="zt"><tr><th>ID</th><th>拨码</th><th>ID</th><th>拨码</th></tr><tr><td>130</td><td><b>82</b></td><td>130</td><td><b>82</b></td></tr><tr><td>131</td><td><b>83</b></td><td>131</td><td><b>83</b></td></tr><tr><td>132</td><td><b>84</b></td><td>132</td><td><b>84</b></td></tr><tr><td>133</td><td><b>85</b></td><td>133</td><td><b>85</b></td></tr><tr><td>134</td><td><b>86</b></td><td>134</td><td><b>86</b></td></tr><tr><td>135</td><td><b>87</b></td><td>135</td><td><b>87</b></td></tr><tr><td>136</td><td><b>88</b></td><td>136</td><td><b>88</b></td></tr><tr><td>137</td><td><b>89</b></td><td>137</td><td><b>89</b></td></tr><tr><td>138</td><td><b>8A</b></td><td>138</td><td><b>8A</b></td></tr><tr><td>139</td><td><b>8B</b></td><td>139</td><td><b>8B</b></td></tr><tr><td>140</td><td><b>8C</b></td><td>140</td><td><b>8C</b></td></tr><tr><td>141</td><td><b>8D</b></td><td>141</td><td><b>8D</b></td></tr><tr><td>142</td><td><b>8E</b></td><td>142</td><td><b>8E</b></td></tr><tr><td>143</td><td><b>8F</b></td><td>143</td><td><b>8F</b></td></tr></table>
-</div></div>
+  <h2><span class="n">22</span>全表</h2>
+  <p class="sub">43 个号一张表连着排，按原表配色分段：粉区 101–116、黄区 117–129、绿区 130–143。</p>
+  <table class="one"><tr><th style="width:34%">ID 号</th><th style="width:34%">拨码</th><th>分区</th></tr><tr style="background:#fbe7ef"><td class="idc">101</td><td class="cdc">65</td><td><span class='zchip' style='background:#b3253a'>粉区</span></td></tr><tr style="background:#fbe7ef"><td class="idc">102</td><td class="cdc">66</td><td></td></tr><tr style="background:#fbe7ef"><td class="idc">103</td><td class="cdc">67</td><td></td></tr><tr style="background:#fbe7ef"><td class="idc">104</td><td class="cdc">68</td><td></td></tr><tr style="background:#fbe7ef"><td class="idc">105</td><td class="cdc">69</td><td></td></tr><tr style="background:#fbe7ef"><td class="idc">106</td><td class="cdc">6A</td><td></td></tr><tr style="background:#fbe7ef"><td class="idc">107</td><td class="cdc">6B</td><td></td></tr><tr style="background:#fbe7ef"><td class="idc">108</td><td class="cdc">6C</td><td></td></tr><tr style="background:#fbe7ef"><td class="idc">109</td><td class="cdc">6D</td><td></td></tr><tr style="background:#fbe7ef"><td class="idc">110</td><td class="cdc">6E</td><td></td></tr><tr style="background:#fbe7ef"><td class="idc">111</td><td class="cdc">6F</td><td></td></tr><tr style="background:#fbe7ef"><td class="idc">112</td><td class="cdc">70</td><td></td></tr><tr style="background:#fbe7ef"><td class="idc">113</td><td class="cdc">71</td><td></td></tr><tr style="background:#fbe7ef"><td class="idc">114</td><td class="cdc">72</td><td></td></tr><tr style="background:#fbe7ef"><td class="idc">115</td><td class="cdc">73</td><td></td></tr><tr style="background:#fbe7ef"><td class="idc">116</td><td class="cdc">74</td><td></td></tr><tr style="background:#fdf3d6"><td class="idc">117</td><td class="cdc">75</td><td><span class='zchip' style='background:#8a6a12'>黄区</span></td></tr><tr style="background:#fdf3d6"><td class="idc">118</td><td class="cdc">76</td><td></td></tr><tr style="background:#fdf3d6"><td class="idc">119</td><td class="cdc">77</td><td></td></tr><tr style="background:#fdf3d6"><td class="idc">120</td><td class="cdc">78</td><td></td></tr><tr style="background:#fdf3d6"><td class="idc">121</td><td class="cdc">79</td><td></td></tr><tr style="background:#fdf3d6"><td class="idc">122</td><td class="cdc">7A</td><td></td></tr><tr style="background:#fdf3d6"><td class="idc">123</td><td class="cdc">7B</td><td></td></tr><tr style="background:#fdf3d6"><td class="idc">124</td><td class="cdc">7C</td><td></td></tr><tr style="background:#fdf3d6"><td class="idc">125</td><td class="cdc">7D</td><td></td></tr><tr style="background:#fdf3d6"><td class="idc">126</td><td class="cdc">7E</td><td></td></tr><tr style="background:#fdf3d6"><td class="idc">127</td><td class="cdc">7F</td><td></td></tr><tr style="background:#fdf3d6"><td class="idc">128</td><td class="cdc">80</td><td></td></tr><tr style="background:#fdf3d6"><td class="idc">129</td><td class="cdc">81</td><td></td></tr><tr style="background:#e2f1e4"><td class="idc">130</td><td class="cdc">82</td><td><span class='zchip' style='background:#2c7f4f'>绿区</span></td></tr><tr style="background:#e2f1e4"><td class="idc">131</td><td class="cdc">83</td><td></td></tr><tr style="background:#e2f1e4"><td class="idc">132</td><td class="cdc">84</td><td></td></tr><tr style="background:#e2f1e4"><td class="idc">133</td><td class="cdc">85</td><td></td></tr><tr style="background:#e2f1e4"><td class="idc">134</td><td class="cdc">86</td><td></td></tr><tr style="background:#e2f1e4"><td class="idc">135</td><td class="cdc">87</td><td></td></tr><tr style="background:#e2f1e4"><td class="idc">136</td><td class="cdc">88</td><td></td></tr><tr style="background:#e2f1e4"><td class="idc">137</td><td class="cdc">89</td><td></td></tr><tr style="background:#e2f1e4"><td class="idc">138</td><td class="cdc">8A</td><td></td></tr><tr style="background:#e2f1e4"><td class="idc">139</td><td class="cdc">8B</td><td></td></tr><tr style="background:#e2f1e4"><td class="idc">140</td><td class="cdc">8C</td><td></td></tr><tr style="background:#e2f1e4"><td class="idc">141</td><td class="cdc">8D</td><td></td></tr><tr style="background:#e2f1e4"><td class="idc">142</td><td class="cdc">8E</td><td></td></tr><tr style="background:#e2f1e4"><td class="idc">143</td><td class="cdc">8F</td><td></td></tr></table>
 </section>
 
 <section class="card">
