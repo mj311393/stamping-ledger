@@ -43,6 +43,45 @@
 const q=document.getElementById('q'),st=document.getElementById('st'),bt=document.getElementById('bt'),list=document.getElementById('list'),cnt=document.getElementById('cnt');
 LEDGER.batches.forEach((b,i)=>{const o=document.createElement('option');o.value=i;o.textContent=b.date+(b.wd?'（'+b.wd+'）':'')+' '+b.shift;bt.appendChild(o);});
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function evidThumbs(ev){
+  if(!ev)return '';
+  const ks=(String(ev).toUpperCase().match(/[PV]\d+/g)||[]);
+  if(!ks.length)return '　证据 '+esc(ev);
+  return '<div class="evis">'+ks.map(k=>{
+    const src=(k.charAt(0)==='V')?'media/v/'+k+'.jpg':'media/p/'+k+'.jpg';
+    return '<img src="'+src+'" alt="'+k+'" loading="lazy" onclick="openEvid(\''+k.charAt(0)+'\',\''+k+'\')">';
+  }).join('')+'</div>';
+}
+(function(){
+  const css='.evis{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}'
+   +'.evis img{width:108px;height:auto;border-radius:8px;border:1px solid #d7dde5;cursor:zoom-in;display:block;background:#f4f6f9}'
+   +'#evlb{position:fixed;inset:0;background:rgba(10,16,24,.96);z-index:120;display:none;overflow:auto;padding:10px 12px 20px}'
+   +'#evlb.on{display:block}'
+   +'#evlb img,#evlb video{max-width:100%;display:block;margin:6px auto 0;border-radius:6px;background:#fff}'
+   +'#evlb .bar{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;color:#fff;font-size:13px;padding:4px 0 8px;background:linear-gradient(rgba(10,16,24,.96),rgba(10,16,24,.75))}'
+   +'#evlb .bar a{color:#fff;font-size:13px;margin-right:10px;text-decoration:underline}'
+   +'#evlb .bar button{font:inherit;font-size:13px;padding:5px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.14);color:#fff;cursor:pointer}';
+  const st=document.createElement('style');st.textContent=css;document.head.appendChild(st);
+  const lb=document.createElement('div');lb.id='evlb';
+  lb.innerHTML='<div class="bar"><span id="evtitle"></span><span><a id="evopen" target="_blank" rel="noopener">原图</a><button id="evclose">关闭</button></span></div><div id="evbody"></div>';
+  document.body.appendChild(lb);
+  const closer=function(){lb.classList.remove('on');document.getElementById('evbody').innerHTML='';document.body.style.overflow='';};
+  document.getElementById('evclose').onclick=closer;
+  lb.addEventListener('click',function(e){if(e.target===lb)closer();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('on'))closer();});
+  window.openEvid=function(kind,key){
+    const body=document.getElementById('evbody');
+    document.getElementById('evtitle').textContent='证据 '+key+'（点背景或关闭返回）';
+    if(kind==='V'){
+      body.innerHTML='<video src="media/v/'+key+'.mp4" controls autoplay playsinline></video>';
+      document.getElementById('evopen').href='media/v/'+key+'.mp4';
+    }else{
+      body.innerHTML='<img src="media/p/'+key+'.jpg" alt="'+key+'">';
+      document.getElementById('evopen').href='media/p/'+key+'.jpg';
+    }
+    lb.classList.add('on');document.body.style.overflow='hidden';
+  };
+})();
 function render(){
   const kw=q.value.trim().toLowerCase(),sv=st.value,bv=bt.value;
   let shown=0,probs=0,opens=0,html='';
@@ -65,7 +104,7 @@ function render(){
             '<div class="d"><span class="lbl">现象：</span>'+esc(x.desc)+'</div>'+
             '<div class="a"><span class="lbl">措施：</span>'+esc(x.action)+'</div>'+
             '<div class="s"><span class="tag '+(open?'open':'done')+'">'+esc(x.status||'—')+'</span>'+
-            (x.time?' 耗时 '+esc(x.time):'')+(x.evid?'　证据 '+esc(x.evid):'')+'</div></div>';
+            (x.time?' 耗时 '+esc(x.time):'')+'</div>'+evidThumbs(x.evid)+'</div>';
       });
       if(!pc&&kw)return;
       bcount+=pc;bopen+=po;
