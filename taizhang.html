@@ -41,7 +41,7 @@
 <script src="assets/data.js"></script>
 <script>
 const q=document.getElementById('q'),st=document.getElementById('st'),bt=document.getElementById('bt'),list=document.getElementById('list'),cnt=document.getElementById('cnt');
-LEDGER.batches.forEach((b,i)=>{const o=document.createElement('option');o.value=i;o.textContent=b.date+' '+b.shift;bt.appendChild(o);});
+LEDGER.batches.forEach((b,i)=>{const o=document.createElement('option');o.value=i;o.textContent=b.date+(b.wd?'（'+b.wd+'）':'')+' '+b.shift;bt.appendChild(o);});
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 function render(){
   const kw=q.value.trim().toLowerCase(),sv=st.value,bv=bt.value;
@@ -74,7 +74,7 @@ function render(){
     });
     if(!inner)return;
     shown++;probs+=bcount;opens+=bopen;
-    html+='<details class="batch"'+(bv!=='all'?' open':'')+'><summary><span class="d">'+esc(b.date)+' · '+esc(b.shift)+'</span>'+
+    html+='<details class="batch"'+(bv!=='all'?' open':'')+'><summary><span class="d">'+esc(b.date)+(b.wd?'（'+esc(b.wd)+'）':'')+' · '+esc(b.shift)+'</span>'+
           '<span class="ln">'+esc(b.products.map(p=>p.name).join('、'))+'</span>'+
           '<span class="tag '+(bopen?'open':'done')+'">'+bcount+' 条 / 挂 '+bopen+'</span></summary>'+inner+'</details>';
   });
