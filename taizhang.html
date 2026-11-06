@@ -49,7 +49,7 @@ function evidThumbs(ev){
   if(!ks.length)return '　证据 '+esc(ev);
   return '<div class="evis">'+ks.map(k=>{
     const src=(k.charAt(0)==='V')?'media/v/'+k+'.jpg':'media/p/'+k+'.jpg';
-    return '<img src="'+src+'" alt="'+k+'" loading="lazy" onclick="openEvid(\''+k.charAt(0)+'\',\''+k+'\')">';
+    return '<img src="'+src+'" alt="'+k+'" loading="lazy" onclick="openEvid(\''+k.charAt(0)+'\',\''+k+'\')" onerror="this.style.display=\'none\'">';
   }).join('')+'</div>';
 }
 (function(){
@@ -58,14 +58,22 @@ function evidThumbs(ev){
    +'#evlb{position:fixed;inset:0;background:rgba(10,16,24,.96);z-index:120;display:none;overflow:auto;padding:10px 12px 20px}'
    +'#evlb.on{display:block}'
    +'#evlb img,#evlb video{max-width:100%;display:block;margin:6px auto 0;border-radius:6px;background:#fff}'
-   +'#evlb .bar{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;color:#fff;font-size:13px;padding:4px 0 8px;background:linear-gradient(rgba(10,16,24,.96),rgba(10,16,24,.75))}'
-   +'#evlb .bar a{color:#fff;font-size:13px;margin-right:10px;text-decoration:underline}'
-   +'#evlb .bar button{font:inherit;font-size:13px;padding:5px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.14);color:#fff;cursor:pointer}';
+   +'#evlb.actual img{max-width:none;width:auto;margin:6px 0 0}'
+   +'#evlb.actual #evbody{overflow:auto}'
+   +'#evlb .bar{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;gap:8px;color:#fff;font-size:13px;padding:4px 0 8px;background:linear-gradient(rgba(10,16,24,.96),rgba(10,16,24,.75))}'
+   +'#evlb #evtitle{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}'
+   +'#evlb .bar>span:last-child{flex:0 0 auto;white-space:nowrap}'
+   +'#evlb .bar a{color:#fff;font-size:13px;margin:0 6px;text-decoration:underline}'
+   +'#evlb .bar button{font:inherit;font-size:13px;padding:5px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.14);color:#fff;cursor:pointer;margin-left:5px}';
   const st=document.createElement('style');st.textContent=css;document.head.appendChild(st);
   const lb=document.createElement('div');lb.id='evlb';
-  lb.innerHTML='<div class="bar"><span id="evtitle"></span><span><a id="evopen" target="_blank" rel="noopener">原图</a><button id="evclose">关闭</button></span></div><div id="evbody"></div>';
+  lb.innerHTML='<div class="bar"><span id="evtitle"></span><span><button id="evfit">1:1 原图</button><a id="evopen" target="_blank" rel="noopener">下载</a><button id="evclose">关闭</button></span></div><div id="evbody"></div>';
   document.body.appendChild(lb);
-  const closer=function(){lb.classList.remove('on');document.getElementById('evbody').innerHTML='';document.body.style.overflow='';};
+  document.getElementById('evfit').onclick=function(){
+    lb.classList.toggle('actual');
+    this.textContent = lb.classList.contains('actual') ? '适应屏幕' : '1:1 原图';
+  };
+  const closer=function(){lb.classList.remove('on');lb.classList.remove('actual');document.getElementById('evfit').textContent='1:1 原图';document.getElementById('evbody').innerHTML='';document.body.style.overflow='';};
   document.getElementById('evclose').onclick=closer;
   lb.addEventListener('click',function(e){if(e.target===lb)closer();});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('on'))closer();});
