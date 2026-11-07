@@ -108,17 +108,14 @@ function render(){
       const pname=p.name.toLowerCase();
       const pids=(p.ids||[]);
       const idHit=(idOnly!==null&&pids.indexOf(idOnly)>=0);
+      if(idOnly!==null&&!idHit)return;   // 输 ID：只看这个零件本身，别的件顺口提到它也不算
       let ph='',pc=0,po=0;
       p.problems.forEach(x=>{
         const open=x.open;
         if(sv==='open'&&!open)return;
         if(sv==='done'&&open)return;
-        const hay=(pname+' '+(x.type||'')+' '+(x.proc||'')+' '+(x.desc||'')+' '+(x.action||'')+' '+(x.status||'')).toLowerCase();
-        if(idOnly!==null){
-          // 输 ID 号：命中该零件（按号）或文字里提到这个零件，都算——效果与直接输产品名一致
-          const hit=idHit||idKws.some(k=>k&&hay.indexOf(String(k).toLowerCase())>=0);
-          if(!hit)return;
-        }else if(kw){
+        if(kw&&idOnly===null){
+          const hay=(pname+' '+(x.type||'')+' '+(x.proc||'')+' '+(x.desc||'')+' '+(x.action||'')+' '+(x.status||'')).toLowerCase();
           if(hay.indexOf(kw)<0)return;
         }
         pc++;if(open)po++;
@@ -128,7 +125,7 @@ function render(){
             '<div class="s"><span class="tag '+(open?'open':'done')+'">'+esc(x.status||'—')+'</span>'+
             (x.time?' 耗时 '+esc(x.time):'')+'</div>'+evidThumbs(x.evid)+'</div>';
       });
-      if(!pc&&kw)return;
+      if(!pc&&kw&&!idHit)return;
       bcount+=pc;bopen+=po;pnames.push(p.name);
       const facts=[p.speed?'线速 '+p.speed:'',p.time?'生产 '+p.time:'',p.qty?p.qty+' 件':'',('首末件 '+(p.first||'—')),('分区 '+(p.zone||'—')),('抽检 '+(p.spot||'—'))].filter(Boolean).join('　·　');
       const idbadge=pids.length?('<span class="idb'+(pids.length>1?' multi':'')+'">'+pids.map(v=>'ID '+v).join(' / ')+'</span>'):'';
@@ -141,7 +138,7 @@ function render(){
           '<span class="tag '+(bopen?'open':'done')+'">'+bcount+' 条 / 挂 '+bopen+'</span></summary>'+inner+'</details>';
   });
   list.innerHTML=html||'<section class="card"><p style="color:#6b7684">没有匹配的记录，换个关键词试试。</p></section>';
-  const idname=(idOnly!==null&&LEDGER.idmap&&LEDGER.idmap[String(idOnly)])?('ID '+idOnly+' = '+LEDGER.idmap[String(idOnly)]+'　'):'';
+  const idname=(idOnly!==null&&LEDGER.idmap&&LEDGER.idmap[String(idOnly)])?('ID '+idOnly+' = '+LEDGER.idmap[String(idOnly)]+'（只看该零件本身）　'):'';
   cnt.textContent=idname+'命中 '+shown+' 个批次，'+probs+' 条问题，其中未闭环 '+opens+' 条。';
 }
 [q,st,bt].forEach(el=>el.addEventListener('input',render));
