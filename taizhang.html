@@ -11,7 +11,7 @@
 <p class="kicker">Stamping Workshop · Quality Log</p>
 <h1>冲压车间质量工作台账（备用站）</h1>
 <p class="lede">按批次逐条列出产品与问题原文、处置措施、当前状态与耗时。</p>
-<div class="meta"><span>冯国庆 · H0362</span><span>舒勒高速自动线 · 南京江宁</span><span>数据截至 11月6日</span></div>
+<div class="meta"><span>冯国庆 · H0362</span><span>舒勒高速自动线 · 南京江宁</span><span>数据截至 11月7日</span></div>
 <nav class="tabs">
 <a href="index.html" class="">概览</a>
 <a href="taizhang.html" class="on">生产台账</a>
@@ -28,10 +28,10 @@
 <div class="wrap">
 
 <section class="card">
-  <h2><span class="n">05</span>生产台账（全部 28 批 · 260 条）</h2>
-  <p class="sub">搜产品名或关键词；状态筛「仅看未闭环」＝所有还挂着的条目。</p>
+  <h2><span class="n">05</span>生产台账（全部 29 批 · 262 条）</h2>
+  <p class="sub">搜 ID 号、产品名或关键词（ID 号就是工位分布表里零件的编号，如 125＝4PR前盖内板）；状态筛「仅看未闭环」＝所有还挂着的条目。</p>
   <div class="filters">
-    <input id="q" type="search" placeholder="搜产品名 / 工序 / 现象，如 4PR叶子板、op20卡废、叠边">
+    <input id="q" type="search" placeholder="搜 ID 号 / 产品名 / 工序 / 现象，如 125、4PR尾门下片、op10擦模、叠边">
     <select id="st"><option value="all">全部状态</option><option value="open">仅看未闭环</option><option value="done">仅看已闭环</option></select>
     <select id="bt"><option value="all">全部批次</option></select>
   </div>
@@ -93,18 +93,21 @@ function evidThumbs(ev){
 })();
 function render(){
   const kw=q.value.trim().toLowerCase(),sv=st.value,bv=bt.value;
+  const idOnly=(/^\d{2,3}$/.test(kw))?parseInt(kw,10):null;
   let shown=0,probs=0,opens=0,html='';
   LEDGER.batches.forEach((b,i)=>{
     if(bv!=='all'&&String(i)!==bv)return;
     let inner='',bcount=0,bopen=0;
     b.products.forEach(p=>{
       const pname=p.name.toLowerCase();
+      const pids=(p.ids||[]);
+      const idHit=(idOnly!==null&&pids.indexOf(idOnly)>=0);
       let ph='',pc=0,po=0;
       p.problems.forEach(x=>{
         const open=x.open;
         if(sv==='open'&&!open)return;
         if(sv==='done'&&open)return;
-        if(kw){
+        if(kw&&idOnly===null){
           const hay=(pname+' '+(x.type||'')+' '+(x.proc||'')+' '+(x.desc||'')+' '+(x.action||'')+' '+(x.status||'')).toLowerCase();
           if(hay.indexOf(kw)<0)return;
         }
@@ -115,10 +118,11 @@ function render(){
             '<div class="s"><span class="tag '+(open?'open':'done')+'">'+esc(x.status||'—')+'</span>'+
             (x.time?' 耗时 '+esc(x.time):'')+'</div>'+evidThumbs(x.evid)+'</div>';
       });
-      if(!pc&&kw)return;
+      if(!pc&&kw&&!idHit)return;
       bcount+=pc;bopen+=po;
       const facts=[p.speed?'线速 '+p.speed:'',p.time?'生产 '+p.time:'',p.qty?p.qty+' 件':'',('首末件 '+(p.first||'—')),('分区 '+(p.zone||'—')),('抽检 '+(p.spot||'—'))].filter(Boolean).join('　·　');
-      inner+='<div class="prod"><h4>'+esc(p.name)+'</h4><div class="facts">'+esc(facts)+'</div>'+(ph||'<div class="prob"><span style="color:#6b7684">本批次无符合条件的问题</span></div>')+'</div>';
+      const idbadge=pids.length?('<span class="idb'+(pids.length>1?' multi':'')+'">'+pids.map(v=>'ID '+v).join(' / ')+'</span>'):'';
+      inner+='<div class="prod"><h4>'+esc(p.name)+idbadge+'</h4><div class="facts">'+esc(facts)+'</div>'+(ph||'<div class="prob"><span style="color:#6b7684">本批次无符合条件的问题</span></div>')+'</div>';
     });
     if(!inner)return;
     shown++;probs+=bcount;opens+=bopen;
@@ -127,7 +131,8 @@ function render(){
           '<span class="tag '+(bopen?'open':'done')+'">'+bcount+' 条 / 挂 '+bopen+'</span></summary>'+inner+'</details>';
   });
   list.innerHTML=html||'<section class="card"><p style="color:#6b7684">没有匹配的记录，换个关键词试试。</p></section>';
-  cnt.textContent='命中 '+shown+' 个批次，'+probs+' 条问题，其中未闭环 '+opens+' 条。';
+  const idname=(idOnly!==null&&LEDGER.idmap&&LEDGER.idmap[String(idOnly)])?('ID '+idOnly+' = '+LEDGER.idmap[String(idOnly)]+'　'):'';
+  cnt.textContent=idname+'命中 '+shown+' 个批次，'+probs+' 条问题，其中未闭环 '+opens+' 条。';
 }
 [q,st,bt].forEach(el=>el.addEventListener('input',render));
 render();
