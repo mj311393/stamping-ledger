@@ -29,9 +29,9 @@
 
 <section class="card">
   <h2><span class="n">05</span>生产台账（全部 29 批 · 267 条）</h2>
-  <p class="sub">搜 ID 号、产品名或关键词（ID 号就是工位分布表里零件的编号，如 125＝4PR前盖内板）；状态筛「仅看未闭环」＝所有还挂着的条目。</p>
+  <p class="sub">搜 ID 号、产品名、工序或问题类型（ID 号就是工位分布表里零件的编号，如 125＝4PR前盖内板）；不搜正文内容。状态筛「仅看未闭环」＝所有还挂着的条目。</p>
   <div class="filters">
-    <input id="q" type="search" placeholder="搜 ID 号 / 产品名 / 工序 / 现象，如 125、4PR尾门下片、op10擦模、叠边">
+    <input id="q" type="search" placeholder="搜 ID 号 / 产品名 / 工序 / 问题类型，如 125、4PR尾门下片、op20、卡废">
     <select id="st"><option value="all">全部状态</option><option value="open">仅看未闭环</option><option value="done">仅看已闭环</option></select>
     <select id="bt"><option value="all">全部批次</option></select>
   </div>
@@ -115,7 +115,8 @@ function render(){
         if(sv==='open'&&!open)return;
         if(sv==='done'&&open)return;
         if(kw&&idOnly===null){
-          const hay=(pname+' '+(x.type||'')+' '+(x.proc||'')+' '+(x.desc||'')+' '+(x.action||'')+' '+(x.status||'')).toLowerCase();
+          // fgq 2026-11-07 定：不搜正文（现象/措施/状态），只搜 产品名 + 问题类型 + 工序
+          const hay=(pname+' '+(x.type||'')+' '+(x.proc||'')).toLowerCase();
           if(hay.indexOf(kw)<0)return;
         }
         pc++;if(open)po++;
