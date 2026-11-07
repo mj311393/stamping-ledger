@@ -42,6 +42,11 @@
 <script src="assets/data.js"></script>
 <script>
 const q=document.getElementById('q'),st=document.getElementById('st'),bt=document.getElementById('bt'),list=document.getElementById('list'),cnt=document.getElementById('cnt');
+const ID_NAMES={};
+LEDGER.batches.forEach(b=>b.products.forEach(p=>(p.ids||[]).forEach(v=>{
+  ID_NAMES[v]=ID_NAMES[v]||[];
+  if(ID_NAMES[v].indexOf(p.name)<0)ID_NAMES[v].push(p.name);
+})));
 LEDGER.batches.forEach((b,i)=>{const o=document.createElement('option');o.value=i;o.textContent=b.date+(b.wd?'（'+b.wd+'）':'')+' '+b.shift;bt.appendChild(o);});
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 function evidThumbs(ev){
@@ -94,6 +99,7 @@ function evidThumbs(ev){
 function render(){
   const kw=q.value.trim().toLowerCase(),sv=st.value,bv=bt.value;
   const idOnly=(/^\d{2,3}$/.test(kw))?parseInt(kw,10):null;
+  const idKws=(idOnly!==null&&ID_NAMES[idOnly])?ID_NAMES[idOnly]:[];
   let shown=0,probs=0,opens=0,html='';
   LEDGER.batches.forEach((b,i)=>{
     if(bv!=='all'&&String(i)!==bv)return;
@@ -102,14 +108,17 @@ function render(){
       const pname=p.name.toLowerCase();
       const pids=(p.ids||[]);
       const idHit=(idOnly!==null&&pids.indexOf(idOnly)>=0);
-      if(idOnly!==null&&!idHit)return;   // 输 ID 号时：只留命中这个号的产品，等价于输产品名
       let ph='',pc=0,po=0;
       p.problems.forEach(x=>{
         const open=x.open;
         if(sv==='open'&&!open)return;
         if(sv==='done'&&open)return;
-        if(kw&&idOnly===null){
-          const hay=(pname+' '+(x.type||'')+' '+(x.proc||'')+' '+(x.desc||'')+' '+(x.action||'')+' '+(x.status||'')).toLowerCase();
+        const hay=(pname+' '+(x.type||'')+' '+(x.proc||'')+' '+(x.desc||'')+' '+(x.action||'')+' '+(x.status||'')).toLowerCase();
+        if(idOnly!==null){
+          // 输 ID 号：命中该零件（按号）或文字里提到这个零件，都算——效果与直接输产品名一致
+          const hit=idHit||idKws.some(k=>k&&hay.indexOf(String(k).toLowerCase())>=0);
+          if(!hit)return;
+        }else if(kw){
           if(hay.indexOf(kw)<0)return;
         }
         pc++;if(open)po++;
@@ -119,7 +128,7 @@ function render(){
             '<div class="s"><span class="tag '+(open?'open':'done')+'">'+esc(x.status||'—')+'</span>'+
             (x.time?' 耗时 '+esc(x.time):'')+'</div>'+evidThumbs(x.evid)+'</div>';
       });
-      if(!pc&&kw&&!idHit)return;
+      if(!pc&&kw)return;
       bcount+=pc;bopen+=po;
       const facts=[p.speed?'线速 '+p.speed:'',p.time?'生产 '+p.time:'',p.qty?p.qty+' 件':'',('首末件 '+(p.first||'—')),('分区 '+(p.zone||'—')),('抽检 '+(p.spot||'—'))].filter(Boolean).join('　·　');
       const idbadge=pids.length?('<span class="idb'+(pids.length>1?' multi':'')+'">'+pids.map(v=>'ID '+v).join(' / ')+'</span>'):'';
