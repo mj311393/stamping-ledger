@@ -103,7 +103,7 @@ function render(){
   let shown=0,probs=0,opens=0,html='';
   LEDGER.batches.forEach((b,i)=>{
     if(bv!=='all'&&String(i)!==bv)return;
-    let inner='',bcount=0,bopen=0;
+    let inner='',bcount=0,bopen=0,pnames=[];
     b.products.forEach(p=>{
       const pname=p.name.toLowerCase();
       const pids=(p.ids||[]);
@@ -129,7 +129,7 @@ function render(){
             (x.time?' 耗时 '+esc(x.time):'')+'</div>'+evidThumbs(x.evid)+'</div>';
       });
       if(!pc&&kw)return;
-      bcount+=pc;bopen+=po;
+      bcount+=pc;bopen+=po;pnames.push(p.name);
       const facts=[p.speed?'线速 '+p.speed:'',p.time?'生产 '+p.time:'',p.qty?p.qty+' 件':'',('首末件 '+(p.first||'—')),('分区 '+(p.zone||'—')),('抽检 '+(p.spot||'—'))].filter(Boolean).join('　·　');
       const idbadge=pids.length?('<span class="idb'+(pids.length>1?' multi':'')+'">'+pids.map(v=>'ID '+v).join(' / ')+'</span>'):'';
       inner+='<div class="prod"><h4>'+esc(p.name)+idbadge+'</h4><div class="facts">'+esc(facts)+'</div>'+(ph||'<div class="prob"><span style="color:#6b7684">本批次无符合条件的问题</span></div>')+'</div>';
@@ -137,7 +137,7 @@ function render(){
     if(!inner)return;
     shown++;probs+=bcount;opens+=bopen;
     html+='<details class="batch"'+(bv!=='all'?' open':'')+'><summary><span class="d">'+esc(b.date)+(b.wd?'（'+esc(b.wd)+'）':'')+' · '+esc(b.shift)+'</span>'+
-          '<span class="ln">'+esc(b.products.map(p=>p.name).join('、'))+'</span>'+
+          '<span class="ln">'+esc(pnames.join('、'))+'</span>'+
           '<span class="tag '+(bopen?'open':'done')+'">'+bcount+' 条 / 挂 '+bopen+'</span></summary>'+inner+'</details>';
   });
   list.innerHTML=html||'<section class="card"><p style="color:#6b7684">没有匹配的记录，换个关键词试试。</p></section>';
