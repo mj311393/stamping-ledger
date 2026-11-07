@@ -24,11 +24,11 @@
 <a href="media.html" class="">成果展示</a>
 </nav>
 </div></header>
-<div class="to-main" style="display:flex;align-items:center;gap:10px;max-width:760px;margin:12px auto 0;padding:11px 14px;background:#fdecec;border:1px solid #f0b9b9;border-radius:11px;color:#8a2b2b"><span style="flex:1;min-width:0"><b style="display:block;font-size:14px;font-weight:800;letter-spacing:.02em">NAS 主站维护中 · 本站为 GitHub 备用站</b><span style="display:block;font-size:11.5px;color:#a85a5a;margin-top:2px">备用站内容与主站同源，主站恢复后自动同步；当前请直接用本站</span></span><span style="font-size:20px;line-height:1;opacity:.5">&#8250;</span></div>
+<a class="to-main" href="https://fgqstamp.yilufa.site/sites/stamping-ledger/" style="display:flex;align-items:center;gap:10px;max-width:760px;margin:12px auto 0;padding:11px 14px;background:#fff6e5;border:1px solid #f0d59c;border-radius:11px;color:#8a5300;text-decoration:none;-webkit-tap-highlight-color:transparent"><span style="flex:1;min-width:0"><b style="display:block;font-size:14px;font-weight:800;letter-spacing:.02em">NAS 自建主站点入口</b><span style="display:block;font-size:11.5px;color:#a87a3c;margin-top:2px">当前为 GitHub 备用站 · 点击进入主站</span></span><span style="font-size:20px;line-height:1;opacity:.75">&#8250;</span></a>
 <div class="wrap">
 
 <section class="card">
-  <h2><span class="n">05</span>生产台账（全部 29 批 · 267 条）</h2>
+  <h2><span class="n">05</span>生产台账（全部 29 批 · 270 条）</h2>
   <p class="sub">搜 ID 号、产品名、工序或问题类型（ID 号就是工位分布表里零件的编号，如 125＝4PR前盖内板）；不搜正文内容。状态筛「仅看未闭环」＝所有还挂着的条目。</p>
   <div class="filters">
     <input id="q" type="search" placeholder="搜 ID 号 / 产品名 / 工序 / 问题类型，如 125、4PR尾门下片、op20、卡废">
@@ -100,6 +100,13 @@ function render(){
   const kw=q.value.trim().toLowerCase(),sv=st.value,bv=bt.value;
   const idOnly=(/^\d{2,3}$/.test(kw))?parseInt(kw,10):null;
   const idKws=(idOnly!==null&&ID_NAMES[idOnly])?ID_NAMES[idOnly]:[];
+  // 输产品名时，把「同一个 ID 的另一种写法」也一起算（如 4PR尾门下片 = 4PR尾门外板下片，同为 127）
+  let kwIds=[];
+  if(kw&&idOnly===null){
+    LEDGER.batches.forEach(b=>b.products.forEach(p=>{
+      if(String(p.name).toLowerCase().indexOf(kw)>=0) (p.ids||[]).forEach(v=>{if(kwIds.indexOf(v)<0)kwIds.push(v)});
+    }));
+  }
   let shown=0,probs=0,opens=0,html='';
   LEDGER.batches.forEach((b,i)=>{
     if(bv!=='all'&&String(i)!==bv)return;
@@ -109,14 +116,15 @@ function render(){
       const pids=(p.ids||[]);
       const idHit=(idOnly!==null&&pids.indexOf(idOnly)>=0);
       if(idOnly!==null&&!idHit)return;   // 输 ID：只看这个零件本身，别的件顺口提到它也不算
+      const nameHit=(kw&&idOnly===null)?(pname.indexOf(kw)>=0||(kwIds.length>0&&kwIds.some(v=>pids.indexOf(v)>=0))):false;
       let ph='',pc=0,po=0;
       p.problems.forEach(x=>{
         const open=x.open;
         if(sv==='open'&&!open)return;
         if(sv==='done'&&open)return;
-        if(kw&&idOnly===null){
+        if(kw&&idOnly===null&&!nameHit){
           // fgq 2026-11-07 定：不搜正文（现象/措施/状态），只搜 产品名 + 问题类型 + 工序
-          const hay=(pname+' '+(x.type||'')+' '+(x.proc||'')).toLowerCase();
+          const hay=(x.type||''+' '+x.proc||'').toLowerCase();
           if(hay.indexOf(kw)<0)return;
         }
         pc++;if(open)po++;
@@ -126,7 +134,7 @@ function render(){
             '<div class="s"><span class="tag '+(open?'open':'done')+'">'+esc(x.status||'—')+'</span>'+
             (x.time?' 耗时 '+esc(x.time):'')+'</div>'+evidThumbs(x.evid)+'</div>';
       });
-      if(!pc&&kw&&!idHit)return;
+      if(!pc&&kw)return;
       bcount+=pc;bopen+=po;pnames.push(p.name);
       const facts=[p.speed?'线速 '+p.speed:'',p.time?'生产 '+p.time:'',p.qty?p.qty+' 件':'',('首末件 '+(p.first||'—')),('分区 '+(p.zone||'—')),('抽检 '+(p.spot||'—'))].filter(Boolean).join('　·　');
       const idbadge=pids.length?('<span class="idb'+(pids.length>1?' multi':'')+'">'+pids.map(v=>'ID '+v).join(' / ')+'</span>'):'';
