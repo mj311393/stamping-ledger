@@ -102,6 +102,7 @@ function render(){
       const pname=p.name.toLowerCase();
       const pids=(p.ids||[]);
       const idHit=(idOnly!==null&&pids.indexOf(idOnly)>=0);
+      if(idOnly!==null&&!idHit)return;   // 输 ID 号时：只留命中这个号的产品，等价于输产品名
       let ph='',pc=0,po=0;
       p.problems.forEach(x=>{
         const open=x.open;
