@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>技术学习笔记 08 · 清洗机气动泵换向阀低温结晶</title>
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+.article h2{font-size:20px;margin:26px 0 8px}
+.article h3{font-size:17px;margin:22px 0 6px}
+.article h4{font-size:15.5px;margin:18px 0 6px}
+.article h5{font-size:14.5px;margin:16px 0 6px;color:#3c4a58}
+.article p{margin:9px 0}
+.article ul,.article ol{margin:8px 0;padding-left:22px}
+.article li{margin:5px 0}
+.article blockquote{margin:10px 0;padding:9px 14px;background:#f4f7fa;border-left:3px solid #cbd6e2;color:#4a5768;border-radius:0 8px 8px 0}
+.article code{font-family:ui-monospace,Menlo,Consolas,monospace;background:#eef2f7;padding:1px 5px;border-radius:5px;font-size:13.5px}
+.article hr{border:none;border-top:1px solid #e3e8ef;margin:22px 0}
+.article img{max-width:100%;height:auto;border-radius:8px}
+.toc{background:#f8fafc;border:1px solid #e3e8ef;border-radius:12px;padding:12px 16px;margin:16px 0;font-size:14px}
+.toc b{display:block;margin-bottom:6px;font-size:13px;color:#6b7684;letter-spacing:.05em}
+.toc a{display:block;padding:3px 0;color:#3f6c9e}
+.navlinks{display:flex;justify-content:space-between;gap:10px;margin:18px 0 0;font-size:14px}
+</style>
+</head><body>
+<header class="top"><div class="wrap">
+<p class="kicker">Stamping Technology Notes</p>
+<h1>技术学习笔记 08 · 清洗机气动泵换向阀低温结晶</h1>
+<p class="lede">清洗机气动泵换向阀为什么"低温结晶"会把中间密封纸垫划破——机理、判据与七项点检</p>
+<nav class="tabs"><a href="../index.html" class="">概览</a><a href="../taizhang.html" class="">生产台账</a><a href="../tongji.html" class="">统计分析</a><a href="../gongzuo.html" class="">日常工作内容</a><a href="../notes.html" class="on">技术学习笔记</a><a href="../loading.html" class="">上料位置</a><a href="../stations.html" class="">工位分布</a><a href="../codes.html" class="">拨码对照</a><a href="../media.html" class="">成果展示</a></nav>
+</div></header>
+<div class="wrap">
+<section class="card article"><div style="color:#6b7684;font-size:13.5px;margin-bottom:8px">2026-11-09　·　冯国庆 H0362</div><div class="toc"><b>本页目录</b><a href="#s1">主题：清洗机气动泵换向阀为什么"低温结晶"会把中间密封纸垫划破——机理、判据与七项点检</a><a href="#s2">一、现场事实</a><a href="#s3">二、这台设备是什么</a><a href="#s4">三、为什么会"结晶"：两条降温路径叠在一起</a><a href="#s5">四、行业排查口径对得上</a><a href="#s6">五、拆开怎么分辨是哪种"结晶"</a><a href="#s7">六、这台机的七项点检（现场可直接执行）</a><a href="#s8">七、对策（按成本从低到高）</a><a href="#s9">八、本次可复述的一句话</a></div><h3>主题：清洗机气动泵换向阀为什么"低温结晶"会把中间密封纸垫划破——机理、判据与七项点检</h3>
+<p>编制：冯国庆 H0362　　日期：2026-11-09　　适用：舒勒高速自动线（南京江宁 · 上汽大乘用车）</p>
+<p>素材口径：台账 ledger_data.json（2026-11-09 白班 4PR后门外板 问题二、4PR右侧围、4PR左侧围）；现场设备 MAXIMATOR Kompakteinheit 气驱动高压泵站（Art.-Nr. 3350 0639，Serialized ID 19031381）</p>
+<hr>
+<h3>一、现场事实</h3>
+<p>2026-11-09 一台清洗机气动泵一天内报三次：上午 4PR右侧围 28 分钟、中午 4PR左侧围 4 分钟、下午 4PR后门外板 4 分钟，出现时都需要停线维修。最终处理＝<b>更换气动泵换向阀</b>，恢复正常。</p>
+<p>维修老师傅的判断：<b>换向阀工作温度低会结晶，把中间那层密封纸垫划破，导致漏气。</b></p>
+<p>这个判断在本机型上成立，本页把机理、判据和处理顺序固定下来，便于重复使用。</p>
+<h3>二、这台设备是什么</h3>
+<ul>
+<li>品牌型号：MAXIMATOR（德国 Nordhausen）<b>Kompakteinheit 紧凑型气驱动高压泵站</b>，Art.-Nr. 3350 0639，Serialized ID 19031381，W/Cal. 4/2018。</li>
+<li>结构要点：以压缩空气为动力，靠<b>气动换向阀／先导阀组</b>来回换气，驱动活塞往复，把介质增压到高压。</li>
+<li>厂家手册给出的工作温度范围：<b>−20 ～ +60 ℃</b>；铭牌上未标注压力单位。</li>
+<li>换向阀就是这套泵的"心脏"：它一卡、一漏，泵就不往复、不上压。</li>
+</ul>
+<h3>三、为什么会"结晶"：两条降温路径叠在一起</h3>
+<h4>1）排气侧：膨胀制冷</h4>
+<p>驱动空气在泵内做功后，从<b>消声器</b>排出。压力骤降的同时温度骤降（膨胀制冷），排气口与阀腔的局部温度可以落到 0 ℃ 以下。这时空气里的水汽不是先变成水，而是<b>直接凝华成霜、成冰晶</b>。</p>
+<p>这也是气动隔膜泵、气动增压泵的行业通病——"排气端冒白雾、消声器结冰"，轻则效率下降，重则停机。</p>
+<h4>2）进气侧：气源本身带水</h4>
+<p>压缩空气在空压机出口是<b>饱和</b>的。行业硬规矩（哈夫纳气动培训第 12 章）：<b>压力露点必须比环境温度低 15 ℃</b>，否则"阀内或执行器内的水会结冰，导致泄漏或功能失效"（原文：*Water in the valve / actuator would then freeze and lead to leakage or malfunction*）。低于 0 ℃ 时露点也叫霜点。</p>
+<p>冷干机效率下降、自动排水堵塞、精密过滤器失效——水就一路进到阀腔。</p>
+<h4>3）为什么坏的偏偏是"中间那层纸"</h4>
+<p>整只阀里，<b>纸垫最薄、最软、没有弹性回复</b>。冰晶和油泥结块的硬度远高于它。阀芯每往复一次，等于把硬颗粒在纸面上碾一遍：先压出痕，再划穿，然后<b>内部串气</b>。表现是换向不到位、动作乏力、持续漏气，外观上看不出异常——只看到"阀不灵了"。</p>
+<h3>四、行业排查口径对得上</h3>
+<p>气动增压泵/隔膜泵"不往复动作、消声器不排气"的<b>头两条原因</b>：</p>
+<ol>
+<li><b>换向阀卡死</b>（卡滞、异物、结冰）</li>
+<li><b>消声器堵塞</b>（结冰、油泥、粉尘）</li>
+</ol>
+<p>与本次"换向阀更换后恢复"完全吻合：卡滞＋纸垫划破同时存在。</p>
+<h3>五、拆开怎么分辨是哪种"结晶"</h3>
+<table>
+<tr><th>残留物长相</th><th>是什么</th><th>治哪里</th></tr>
+<tr><td>白色／透明晶粒、有水痕</td><td>冰晶（水）</td><td>气源露点、冷干机、自动排水</td></tr>
+<tr><td>黄褐胶状、有蜡感</td><td>油泥＋水乳化物</td><td>空压机油带出，加装除油过滤器</td></tr>
+<tr><td>灰黑硬粒、带金属光</td><td>外来颗粒</td><td>管路焊渣／锈屑，前置过滤失效</td></tr>
+</table>
+<p><b>结论：先留证据再换件</b>——把拆下来的阀体、纸垫拍照留档，才能判断是"水的问题"还是"油／颗粒的问题"。</p>
+<h3>六、这台机的七项点检（现场可直接执行）</h3>
+<table>
+<tr><th>序</th><th>查什么</th><th>判据</th></tr>
+<tr><td>1</td><td>驱动气压</td><td>≥ 0.4 MPa，低于此多数泵不启动</td></tr>
+<tr><td>2</td><td>消声器</td><td>拆下检查是否结冰／脏堵（冬季第一高发）</td></tr>
+<tr><td>3</td><td>换向阀动作</td><td>有换气声＝在动；无声＝卡滞</td></tr>
+<tr><td>4</td><td>进气滤芯</td><td>堵塞 → 供气不足、动作慢</td></tr>
+<tr><td>5</td><td>气源压力露点</td><td>要求 ≤ 环境最低温 − 15 ℃；看冷干机与每日排水</td></tr>
+<tr><td>6</td><td>润滑</td><td>按厂家指定润滑，不自行加普通油</td></tr>
+<tr><td>7</td><td>排气口朝向与环境温度</td><td>朝上、贴近水雾的必须改朝下</td></tr>
+</table>
+<h3>七、对策（按成本从低到高）</h3>
+<ol>
+<li><b>零成本</b>：排气口朝下、每天手动排污、停机前吹扫阀腔。</li>
+<li><b>小钱</b>：阀前加 0.01 μm 精密过滤器与自动排水器；阀体保温或移出湿区；消声器改可拆洗式。</li>
+<li><b>中钱</b>：冷干机升级为<b>吸附式干燥机</b>（露点可到 −40 ℃），从源头解决水。</li>
+<li><b>长期</b>：密封形式升级（纸垫 → NBR／FKM 成型垫或金属＋O 圈）；备件按<b>换向阀总成</b>备，不再单换纸垫。</li>
+</ol>
+<h3>八、本次可复述的一句话</h3>
+<p><b>不是阀先坏，是水先在阀里结成了冰；冰不认阀，只认最软的那层纸。</b></p>
+<p>只换阀、不改气源，入冬后大概率复发——所以这台机应当同时进"设备档案"和"气源点检"两张表。</p>
+<hr>
+<p>参考资料：</p>
+<ul>
+<li>HAFNER Pneumatik，Basics Training Course Chapter 12（露点须低于环境温度 15 ℃；否则阀内结冰致泄漏）</li>
+<li>BTR VSI，Low-Temperature Valve Problems（低温下弹性体收缩硬化、润滑脂变稠、泄漏在低温才出现）</li>
+<li>气动隔膜泵排气端结冰与消声器结冰说明（膨胀制冷导致排气侧结冰）</li>
+<li>空气增压泵常见故障（不往复：① 换向阀卡死 ② 消声器阻塞）</li>
+<li>MAXIMATOR 高压泵操作手册（工作温度 −20 ～ +60 ℃）</li>
+</ul>
+<p>冯国庆 H0362</p><div class="navlinks"><a href="note07.html">← 上一期</a><a href="../notes.html">全部笔记 →</a></div></section><footer><b>冯国庆 · H0362</b><br>冲压车间技术学习笔记<br>现场数据为准，行业资料只用来解释现象<div style="margin-top:10px;font-size:12.5px">相关站点：<a href="https://tpm.stamping.yilufa.site/" target="_blank" rel="noopener" style="color:#1f6feb;text-decoration:none">TPM 设备标签库</a></div></footer>
+</div></body></html>
