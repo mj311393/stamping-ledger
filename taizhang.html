@@ -145,7 +145,7 @@ function render(){
       const ln3=[('首末件 '+(p.first||'—')),('分区 '+(p.zone||'—')),('抽检 '+(p.spot||'—'))].filter(Boolean).join('　·　');
       const facts=[ln1,spmTxt,ln3].filter(Boolean).map(function(x){return '<span class="fline">'+esc(x)+'</span>'}).join('');
       const idbadge=pids.length?('<span class="idb'+(pids.length>1?' multi':'')+'">'+pids.map(v=>'ID '+v).join(' / ')+'</span>'):'';
-      inner+='<details class="prod" open><summary class="phead"><div class="pname">'+esc(p.name)+idbadge+'</div>'+
+      inner+='<details class="prod"><summary class="phead"><div class="pname">'+esc(p.name)+idbadge+'</div>'+
              '<div class="facts">'+facts+'</div></summary><div class="pbody">'+
              (ph||'<div class="prob"><span style="color:#6b7684">本批次无符合条件的问题</span></div>')+'</div></details>';
     });
@@ -156,12 +156,7 @@ function render(){
           '<span class="tag '+(bopen?'open':'done')+'">'+bcount+' 条 / 挂 '+bopen+'</span></summary>'+inner+'</details>';
   });
   list.innerHTML=html||'<section class="card"><p style="color:#6b7684">没有匹配的记录，换个关键词试试。</p></section>';
-  // 批次展开＝把该批所有产品一起展开；单个产品再点自己的标题即可折叠（fgq 2026-11-11 定）
-  list.querySelectorAll('details.batch').forEach(function(d){
-    d.addEventListener('toggle', function(){
-      d.querySelectorAll('details.prod').forEach(function(x){ x.open = d.open; });
-    });
-  });
+  // 点批次的「N 条 / 挂 M」只展开这一批的产品速览（三行），不再自动把每个产品的问题一起拉开（fgq 2026-11-11 定）
   const idname=(idOnly!==null&&LEDGER.idmap&&LEDGER.idmap[String(idOnly)])?('ID '+idOnly+' = '+LEDGER.idmap[String(idOnly)]+'（只看该零件本身）　'):'';
   cnt.textContent=idname+'命中 '+shown+' 个批次，'+probs+' 条问题，其中未闭环 '+opens+' 条。';
 }
