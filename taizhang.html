@@ -22,6 +22,7 @@
 <a href="stations.html" class="">工位分布</a>
 <a href="codes.html" class="">拨码对照</a>
 <a href="media.html" class="">成果展示</a>
+<a href="https://stamping.yilufa.site/bbs/" class="">随手记</a>
 </nav>
 </div></header>
 <div class="to-main" style="display:flex;align-items:center;gap:8px;max-width:760px;margin:12px auto 0;padding:11px 14px;background:#fff6e5;border:1px solid #f0d59c;border-radius:11px;color:#8a5300;flex-wrap:wrap"><b style="font-size:13.5px;font-weight:800;margin-right:auto">当前为 GitHub 备用站</b><a href="https://stamping.yilufa.site/" style="text-decoration:none;background:#1f6feb;color:#fff;padding:7px 12px;border-radius:8px;font-size:12.5px;font-weight:700">主站</a></div>
@@ -140,9 +141,13 @@ function render(){
       if(!pc&&kw)return;
       bcount+=pc;bopen+=po;pnames.push(p.name);
       const spmTxt=(p.spm_th&&p.spm_ac)?('SPM '+p.spm_th.toFixed(1)+' / ASPM '+p.spm_ac.toFixed(2)+'（达成 '+Math.round(p.spm_ac/p.spm_th*100)+'%）'):'';
-      const facts=[p.speed?'线速 '+p.speed:'',p.time?'生产 '+p.time:'',p.qty?p.qty+' 件':'',spmTxt,('首末件 '+(p.first||'—')),('分区 '+(p.zone||'—')),('抽检 '+(p.spot||'—'))].filter(Boolean).join('　·　');
+      const ln1=[p.speed?'线速 '+p.speed:'',p.time?'生产 '+p.time:'',p.qty?p.qty+' 件':''].filter(Boolean).join('　·　');
+      const ln3=[('首末件 '+(p.first||'—')),('分区 '+(p.zone||'—')),('抽检 '+(p.spot||'—'))].filter(Boolean).join('　·　');
+      const facts=[ln1,spmTxt,ln3].filter(Boolean).map(function(x){return '<span class="fline">'+esc(x)+'</span>'}).join('');
       const idbadge=pids.length?('<span class="idb'+(pids.length>1?' multi':'')+'">'+pids.map(v=>'ID '+v).join(' / ')+'</span>'):'';
-      inner+='<div class="prod"><h4>'+esc(p.name)+idbadge+'</h4><div class="facts">'+esc(facts)+'</div>'+(ph||'<div class="prob"><span style="color:#6b7684">本批次无符合条件的问题</span></div>')+'</div>';
+      inner+='<details class="prod" open><summary class="phead"><div class="pname">'+esc(p.name)+idbadge+'</div>'+
+             '<div class="facts">'+facts+'</div></summary><div class="pbody">'+
+             (ph||'<div class="prob"><span style="color:#6b7684">本批次无符合条件的问题</span></div>')+'</div></details>';
     });
     if(!inner)return;
     shown++;probs+=bcount;opens+=bopen;
@@ -151,6 +156,12 @@ function render(){
           '<span class="tag '+(bopen?'open':'done')+'">'+bcount+' 条 / 挂 '+bopen+'</span></summary>'+inner+'</details>';
   });
   list.innerHTML=html||'<section class="card"><p style="color:#6b7684">没有匹配的记录，换个关键词试试。</p></section>';
+  // 批次展开＝把该批所有产品一起展开；单个产品再点自己的标题即可折叠（fgq 2026-11-11 定）
+  list.querySelectorAll('details.batch').forEach(function(d){
+    d.addEventListener('toggle', function(){
+      d.querySelectorAll('details.prod').forEach(function(x){ x.open = d.open; });
+    });
+  });
   const idname=(idOnly!==null&&LEDGER.idmap&&LEDGER.idmap[String(idOnly)])?('ID '+idOnly+' = '+LEDGER.idmap[String(idOnly)]+'（只看该零件本身）　'):'';
   cnt.textContent=idname+'命中 '+shown+' 个批次，'+probs+' 条问题，其中未闭环 '+opens+' 条。';
 }
