@@ -40,7 +40,7 @@
 </section>
 <div id="list"></div>
 
-<script src="assets/data.js?v=b355f05a"></script>
+<script src="assets/data.js?v=cfa3d202"></script>
 <script>
 const q=document.getElementById('q'),st=document.getElementById('st'),bt=document.getElementById('bt'),list=document.getElementById('list'),cnt=document.getElementById('cnt');
 const ID_NAMES={};
@@ -60,7 +60,7 @@ function evidThumbs(ev){
   }).join('')+'</div>';
 }
 (function(){
-  const css='.evis{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}'
+  const css='.evis{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 4px}'
    +'.notelink{margin-top:8px;font-size:13px}'
    +'.notelink a{display:inline-block;background:#eef4ff;border:1px solid #bcd3f7;color:#1c4f9c;padding:5px 10px;border-radius:8px;text-decoration:none;font-weight:700}'
    +'.evis img{width:108px;height:auto;border-radius:8px;border:1px solid #d7dde5;cursor:zoom-in;display:block;background:#f4f6f9}'
@@ -132,10 +132,10 @@ function render(){
         }
         pc++;if(open)po++;
         ph+='<div class="prob '+(open?'openp':'')+'"><div class="t"><span class="tag type">'+esc(x.type||'未分类')+'</span>'+esc(x.proc)+'</div>'+
-            '<div class="d"><span class="lbl">现象：</span>'+esc(x.desc)+'</div>'+
+            '<div class="d"><span class="lbl">现象：</span>'+esc(x.desc)+'</div>'+evidThumbs(x.evid)+
             '<div class="a"><span class="lbl">措施：</span>'+esc(x.action)+'</div>'+
             '<div class="s"><span class="tag '+(open?'open':'done')+'">'+esc(x.status||'—')+'</span>'+
-            (x.time?' 耗时 '+esc(x.time):'')+'</div>'+evidThumbs(x.evid)+
+            (x.time?' 耗时 '+esc(x.time):'')+'</div>'+
             (x.note?'<div class="notelink"><a href="notes/'+esc(x.note)+'.html">📄 学习分析笔记 · 见技术笔记</a></div>':'')+'</div>';
       });
       if(!pc&&kw)return;
