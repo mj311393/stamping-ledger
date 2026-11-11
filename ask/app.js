@@ -67,6 +67,18 @@
         ah.appendChild(el('span', null, ' 回复 · ' + q.answered_time));
         ans.appendChild(ah);
         ans.appendChild(el('div', 'abody', q.answer));
+        if (q.preview) {
+          var snap = el('div', 'snap');
+          var head = el('div', 'snaphead', '附件快照 · ' + (q.preview_title || '文件预览'));
+          snap.appendChild(head);
+          var img = el('img');
+          img.src = API + q.preview;
+          img.alt = '附件快照';
+          img.loading = 'lazy';
+          snap.appendChild(img);
+          snap.appendChild(el('div', 'snapfoot', '快照看不清细节。想要原文原件，在下面留言并留邮箱，客服桃子发给你。'));
+          ans.appendChild(snap);
+        }
         card.appendChild(ans);
       } else {
         card.appendChild(el('div', 'waiting', '已收到，等下一次集中回复（每 2 小时一次）'));
