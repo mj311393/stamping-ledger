@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>客服问答 · 冲压车间台账</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <p class="kicker">STAMPING WORKSHOP · ASK</p>
+    <h1>客服问答</h1>
+    <p class="lede">台账怎么用、数据怎么看、某个问题记到哪一步了——都可以在这里问。每 2 小时集中看一次并回复，问题与回复都公开在下面。</p>
+    <nav class="tabs">
+      <a href="../index.html">← 回台账</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="compose">
+    <div class="ctitle">提个问题</div>
+    <div class="field">
+      <label for="body">想问什么（尽量写具体：哪个产品、哪一批、哪一项）</label>
+      <textarea id="body" maxlength="600" rows="4" placeholder="例：4PR叶子板 op30 压印现在算谁的责任？我们这边只看耗时吗？"></textarea>
+    </div>
+    <div class="frow">
+      <div class="field">
+        <label for="nick">称呼（可不填）</label>
+        <input id="nick" type="text" maxlength="12" placeholder="怎么称呼你">
+      </div>
+      <div class="field">
+        <label for="contact">邮箱（可不填，不公开；要发文件时用这个发给你）</label>
+        <input id="contact" type="email" maxlength="60" placeholder="例如 xxx@qq.com">
+      </div>
+    </div>
+    <input class="hp" id="hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <div class="actions">
+      <button class="btn" id="send">提交问题</button>
+      <span class="msg" id="cmsg"></span>
+    </div>
+    <p class="hint">只答台账使用、数据口径与已记录问题；涉及责任认定或需要现场确认的，会写清「需现场确认」。</p>
+  </section>
+
+  <p class="listhead"><span id="count"></span><span class="pill" id="pendtip"></span></p>
+  <div id="view"><div class="loading">正在读取…</div></div>
+  <p class="foot-note">冲压车间 · 客服问答　（每 2 小时集中回复）</p>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
