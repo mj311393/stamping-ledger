@@ -139,7 +139,7 @@ function render(){
       });
       if(!pc&&kw)return;
       bcount+=pc;bopen+=po;pnames.push(p.name);
-      const spmTxt=(p.spm_th&&p.spm_ac)?('SPM '+(p.spm_src==='theory'?'':'约')+p.spm_th.toFixed(1)+' / ASPM '+p.spm_ac.toFixed(2)+'（达成 '+Math.round(p.spm_ac/p.spm_th*100)+'%）'):'';
+      const spmTxt=(p.spm_th&&p.spm_ac)?('SPM '+p.spm_th.toFixed(1)+' / ASPM '+p.spm_ac.toFixed(2)+'（达成 '+Math.round(p.spm_ac/p.spm_th*100)+'%）'):'';
       const facts=[p.speed?'线速 '+p.speed:'',p.time?'生产 '+p.time:'',p.qty?p.qty+' 件':'',spmTxt,('首末件 '+(p.first||'—')),('分区 '+(p.zone||'—')),('抽检 '+(p.spot||'—'))].filter(Boolean).join('　·　');
       const idbadge=pids.length?('<span class="idb'+(pids.length>1?' multi':'')+'">'+pids.map(v=>'ID '+v).join(' / ')+'</span>'):'';
       inner+='<div class="prod"><h4>'+esc(p.name)+idbadge+'</h4><div class="facts">'+esc(facts)+'</div>'+(ph||'<div class="prob"><span style="color:#6b7684">本批次无符合条件的问题</span></div>')+'</div>';
