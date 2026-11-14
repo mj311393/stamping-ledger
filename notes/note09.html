@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>技术学习笔记 09 · VAK真空发生器只吹不吸的机理与排查</title>
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+.article h2{font-size:20px;margin:26px 0 8px}
+.article h3{font-size:17px;margin:22px 0 6px}
+.article h4{font-size:15.5px;margin:18px 0 6px}
+.article h5{font-size:14.5px;margin:16px 0 6px;color:#3c4a58}
+.article p{margin:9px 0}
+.article ul,.article ol{margin:8px 0;padding-left:22px}
+.article li{margin:5px 0}
+.article blockquote{margin:10px 0;padding:9px 14px;background:#f4f7fa;border-left:3px solid #cbd6e2;color:#4a5768;border-radius:0 8px 8px 0}
+.article code{font-family:ui-monospace,Menlo,Consolas,monospace;background:#eef2f7;padding:1px 5px;border-radius:5px;font-size:13.5px}
+.article hr{border:none;border-top:1px solid #e3e8ef;margin:22px 0}
+.article img{max-width:100%;height:auto;border-radius:8px}
+.article figure{margin:16px 0 18px}
+.article figure img{width:100%;border:1px solid #e3e8ef}
+.article figcaption{font-size:13px;color:#6b7684;margin-top:6px;text-align:center;line-height:1.6}
+.toc{background:#f8fafc;border:1px solid #e3e8ef;border-radius:12px;padding:12px 16px;margin:16px 0;font-size:14px}
+.toc b{display:block;margin-bottom:6px;font-size:13px;color:#6b7684;letter-spacing:.05em}
+.toc a{display:block;padding:3px 0;color:#3f6c9e}
+.navlinks{display:flex;justify-content:space-between;gap:10px;margin:18px 0 0;font-size:14px}
+</style>
+</head><body>
+<header class="top"><div class="wrap">
+<p class="kicker">Stamping Technology Notes</p>
+<h1>技术学习笔记 09 · VAK真空发生器只吹不吸的机理与排查</h1>
+<p class="lede">真空发生器为什么「只吹气、不吸气」——VAK-1/4 的文丘里原理、喷射脉冲与三条故障链</p>
+<nav class="tabs"><a href="../index.html" class="">概览</a><a href="../taizhang.html" class="">生产台账</a><a href="../tongji.html" class="">统计分析</a><a href="../gongzuo.html" class="">日常工作内容</a><a href="../notes.html" class="on">技术学习笔记</a><a href="../loading.html" class="">上料位置</a><a href="../stations.html" class="">工位分布</a><a href="../codes.html" class="">拨码对照</a><a href="../media.html" class="">成果展示</a></nav>
+</div></header>
+<div class="wrap">
+<section class="card article"><div style="color:#6b7684;font-size:13.5px;margin-bottom:8px">2026-11-14　·　冯国庆 H0362</div><div class="toc"><b>本页目录</b><a href="#s1">主题：真空发生器为什么「只吹气、不吸气」——VAK-1/4 的文丘里原理、喷射脉冲与三条故障链</a><a href="#s2">一、现场现象</a><a href="#s3">二、先弄清这颗件的本来面目</a><a href="#s4">三、吸气：文丘里原理怎么把空气抽走</a><a href="#s5">四、吹气：喷射脉冲为什么是"正常动作"</a><a href="#s6">五、只吹不吸：三条故障链</a><a href="#s7">六、现场判别五步（10 分钟可定性）</a><a href="#s8">七、处置与预防</a><a href="#s9">八、结论</a></div><h3>主题：真空发生器为什么「只吹气、不吸气」——VAK-1/4 的文丘里原理、喷射脉冲与三条故障链</h3>
+<p>编制：冯国庆 H0362　　日期：2026-11-14　　适用：舒勒高速自动线（南京江宁 · 上汽大乘用车）· 端拾器与吸盘气路</p>
+<p>素材口径：现场实物 Festo <b>VAK-1/4（订货号 6890，GTIN 4052568001452）</b>；参数取自 Festo 数据表 6890 与样本《真空发生器 VAD/VAK》；实物照片为现场拍摄。</p>
+<hr>
+<h3>一、现场现象</h3>
+<p>端拾器吸盘接上这颗真空发生器后，<b>只吹气、吸不住工件</b>，而且是一直吹——与"应该是吸气"的预期相反。整件已拆下，消声器也拆出来看过。</p>
+<h3>二、先弄清这颗件的本来面目</h3>
+<figure><img src="img/vak_photo1.jpg" alt="图 0　整件外观：右侧 ① 供气口、下方 ② 真空口（快插接吸盘）、左侧 ③ 排气口带消声器"><figcaption>图 0　整件外观：右侧 ① 供气口、下方 ② 真空口（快插接吸盘）、左侧 ③ 排气口带消声器</figcaption></figure>
+<ul>
+<li>型号 <b>VAK-1/4</b>，订货号 <b>6890</b>；压铸铝壳体，无移动部件，正常工况免维护。</li>
+<li>三个 <b>G1/4</b> 气口：<b>① 供气</b>、<b>② 真空（接吸盘）</b>、<b>③ 排气（接消声器）</b>。</li>
+<li>拉伐尔喷嘴公称通径 <b>φ1.0 mm</b>（高真空型）；工作压力 <b>1.5–10 bar</b>；最大真空度 <b>80%</b>（≈ −0.08 MPa）；介质／环境温度 <b>−20…+80 ℃</b>。</li>
+<li>关键一点：<b>VAK 系列带内置贮气罐（≈32 cm³）与气动喷射脉冲功能</b>。VAD 没有这个功能，VAK 有——这决定了它「会吸，也会吹」。</li>
+</ul>
+<h3>三、吸气：文丘里原理怎么把空气抽走</h3>
+<figure><img src="img/fig1_principle.png" alt="图 1　左：供气时 1→3 形成文丘里射流，在 2 处建立真空；右：断气瞬间贮气罐 32 cm³ 释放，形成喷射脉冲把工件吹脱"><figcaption>图 1　左：供气时 1→3 形成文丘里射流，在 2 处建立真空；右：断气瞬间贮气罐 32 cm³ 释放，形成喷射脉冲把工件吹脱</figcaption></figure>
+<ol>
+<li>压缩空气从 ① 进入，经 φ1.0 mm 拉伐尔喷嘴的收缩段加速，在喉部达到当地音速，进入扩张段继续加速成高速射流。</li>
+<li>高速射流把喷嘴出口附近的空气一起带走，② 腔体内压力降到大气压以下，形成负压；最高真空度 80%。</li>
+<li>吸盘经 ② 与负压腔连通，靠内外压差把工件压住；射流连同抽来的空气一起从 ③ 经消声器排入大气。</li>
+<li>抽真空的同时，一小部分压缩空气给内置贮气罐充压（约 32 cm³）。</li>
+</ol>
+<h3>四、吹气：喷射脉冲为什么是"正常动作"</h3>
+<p>切断 ① 供气，射流消失、真空解除；贮气罐里的 32 cm³ 压缩空气经 ② 反向冲入吸盘，形成<b>一次短促的喷吹</b>，把工件干脆地吹脱——这是 VAK 相比 VAD 的核心卖点，用于薄板件快速脱料。</p>
+<blockquote>判别基准：正常件是「<b>长时间吸气 + 一瞬间吹</b>」。凡是「一直吹」「每次通气都吹」「吹的气量随供气压力变大」，都是故障，不是设计如此。</blockquote>
+<h3>五、只吹不吸：三条故障链</h3>
+<figure><img src="img/fig2_faults.png" alt="图 2　三种典型成因的气流走向：A 排气受阻反吹（最常见）、B 气源与真空口接反、C 脉冲通路串漏"><figcaption>图 2　三种典型成因的气流走向：A 排气受阻反吹（最常见）、B 气源与真空口接反、C 脉冲通路串漏</figcaption></figure>
+<h4>A. 排气侧受阻（现场最常见）</h4>
+<p>③ 口的消声器烧结滤芯被油雾、粉尘、结垢堵死（或被人为堵住、缠胶带降噪），射流排不出去，① 的压缩空气在腔内憋压，只能沿阻力最小的 ② 口反向冲出——表现出来正好是"吸盘变成吹气嘴、真空建立不起来"。</p>
+<ul>
+<li>判据：吸盘口出气量与供气压力正相关；<b>拆下消声器立刻恢复正常吸气</b>；滤芯发黑、结硬壳。</li>
+</ul>
+<h4>B. 气源与真空口接反（配管错）</h4>
+<p>气源接到 ②、吸盘接到 ①：压缩空气进入腔体后不经喷嘴，直接从 ① 冲进吸盘，全程正压，与真空发生器的工作原理无关。</p>
+<ul>
+<li>判据：一通气就猛吹，压力接近气源压力；两个口对调立即恢复；多见于更换元件、抢修后复装。</li>
+</ul>
+<h4>C. 脉冲通路串漏（阀件老化／异物）</h4>
+<p>内部单向阀卡在开启位或密封面失效，贮气罐与 ② 口常通：吸气时罐内空气不断漏进 ②，真空上不去；断气后余气继续外吹。</p>
+<ul>
+<li>判据：<b>断气后仍长吹不止</b>（明显长于一次短促脉冲），或吸气时吸盘口一直在微微出气；清洗无效，需整件更换。</li>
+</ul>
+<h4>D／E. 只"吸不住"、不"吹"的成因（用于排除）</h4>
+<p>喷嘴磨损或堵塞（真空度下降、但仍从 ③ 排气）、吸盘与软管漏气、气源含水含油导致内部结垢、供气压力超过 10 bar。这几类一般不产生正向吹气。</p>
+<h3>六、现场判别五步（10 分钟可定性）</h3>
+<figure><img src="img/fig3_check.png" alt="图 3　「只吹不吸」判别顺序：每一步只改一个变量，只记录「哪个口出气」"><figcaption>图 3　「只吹不吸」判别顺序：每一步只改一个变量，只记录「哪个口出气」</figcaption></figure>
+<table>
+<tr><th>步骤</th><th>动作与判据</th><th>结论／处置</th></tr>
+<tr><td>1 摸气</td><td>供气后用手背或纸片在吸盘口试：明显出气＝正在吹</td><td>无气只是吸不住 → 跳到第 4 步，改查真空度与密封</td></tr>
+<tr><td>2 拆消声器</td><td>拆下 ③ 口消声器再试：吸盘口不吹了、③ 排气顺畅且能建立真空</td><td><b>消声器堵死（A）</b>：清洗后反向吹干；滤芯发黑结硬壳直接换新</td></tr>
+<tr><td>3 对调试验</td><td>气源改接 ①、吸盘改接 ②（恢复标准接法）再试</td><td><b>配管错（B）</b>：按 ①供气／②吸盘／③排气＋消声器 重新配管并做标识</td></tr>
+<tr><td>4 断气脉冲</td><td>切断 ① 供气，看吸盘口：应只有一下短促喷气（≈32 cm³）</td><td>长吹不止／吸气时也吹＝<b>脉冲通路串漏（C）</b>，整件更换</td></tr>
+<tr><td>5 测真空度</td><td>6 bar 供气、空吸盘接真空表：应接近 −0.07…−0.08 MPa</td><td>明显偏低：查吸盘/软管漏气、喷嘴磨损、气源含水（D／E）</td></tr>
+</table>
+<h3>七、处置与预防</h3>
+<table>
+<tr><th>项目</th><th>要求</th><th>周期</th></tr>
+<tr><td>消声器／烧结滤芯</td><td>拆检是否发黑结壳；可洗的用中性清洗剂洗后反向吹干；破损或洗不净直接换新（易损件，建议常备 1–2 只）</td><td>每周点检；油污重的产线每班看</td></tr>
+<tr><td>排气口 ③</td><td><b>严禁拆除、堵死、缠胶带降噪</b>；消声器拧到位，漏气同样损失真空</td><td>换件／复装时确认</td></tr>
+<tr><td>配管标识</td><td>①／②／③ 三点做永久标识，抢修复装后按标识复核</td><td>一次性落实</td></tr>
+<tr><td>气源质量</td><td>按 ISO 8573-1:2010 [7:4:4]：末端加装油水分离＋精密过滤，定期排水</td><td>每周排水，滤芯按压差更换</td></tr>
+<tr><td>供气压力</td><td>维持 4–6 bar 使用，不超过 10 bar 上限</td><td>纳入日常点检</td></tr>
+<tr><td>功能验证</td><td>换件或保养后做「双验证」：空吸盘测真空度 ＋ 断气看喷射脉冲</td><td>每次保养后</td></tr>
+</table>
+<h3>八、结论</h3>
+<p>这颗件本身「会吸也会吹」：吹是喷射脉冲释放工件的正常动作，<b>只该发生一瞬间</b>。持续吹气、真空建立不起来属故障。按现场概率：<b>先查 ③ 口消声器是否堵死（A）</b>，再查 ①② 是否接反（B），最后判断内部脉冲通路是否串漏（C）。三者分清之后，再考虑喷嘴磨损与泄漏。</p>
+<p>一并提交的单页 PDF（含全部图示与照片）：<code>VAK-1_4真空发生器只吹不吸_原理分析与排查_2026-11-14.pdf</code>。</p>
+<hr>
+<p>冯国庆　H0362</p><div class="navlinks"><a href="note08.html">← 上一期</a><a href="../notes.html">全部笔记 →</a></div></section><footer><b>冯国庆 · H0362</b><br>冲压车间技术学习笔记<br>现场数据为准，行业资料只用来解释现象<div style="margin-top:10px;font-size:12.5px">相关站点：<a href="https://tpm.stamping.yilufa.site/" target="_blank" rel="noopener" style="color:#1f6feb;text-decoration:none">TPM 设备标签库</a></div></footer>
+</div></body></html>
