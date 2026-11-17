@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="按批次逐条列出产品与问题原文、处置措施、当前状态与耗时。">
+<title>生产台账 · 冲压车间质量工作台账（备用站）</title>
+<link rel="stylesheet" href="assets/style.css?v=9c2a7a05">
+</head><body>
+<header class="top"><div class="wrap">
+<p class="kicker">Stamping Workshop · Quality Log</p>
+<h1>冲压车间质量工作台账（备用站）</h1>
+<p class="lede">按批次逐条列出产品与问题原文、处置措施、当前状态与耗时。</p>
+<div class="meta"><span>冯国庆 · H0362</span><span>舒勒高速自动线 · 南京江宁</span><span>数据截至 11月17日</span></div>
+<nav class="tabs">
+<a href="index.html" class="">概览</a>
+<a href="taizhang.html" class="on">生产台账</a>
+<a href="tongji.html" class="">统计分析</a>
+<a href="gongzuo.html" class="">日常工作内容</a>
+<a href="notes.html" class="">技术学习笔记</a>
+<a href="loading.html" class="">上料位置</a>
+<a href="stations.html" class="">工位分布</a>
+<a href="codes.html" class="">拨码对照</a>
+<a href="media.html" class="">成果展示</a>
+<a href="ask/" class="">客服问答</a>
+</nav>
+</div></header>
+<div class="to-main" style="display:flex;align-items:center;gap:8px;max-width:760px;margin:12px auto 0;padding:11px 14px;background:#fff6e5;border:1px solid #f0d59c;border-radius:11px;color:#8a5300;flex-wrap:wrap"><b style="font-size:13.5px;font-weight:800;margin-right:auto">当前为 GitHub 备用站</b><a href="https://stamping.yilufa.site/" style="text-decoration:none;background:#1f6feb;color:#fff;padding:7px 12px;border-radius:8px;font-size:12.5px;font-weight:700">主站</a></div>
+<div class="wrap">
+
+<section class="card">
+  <h2><span class="n">05</span>生产台账（全部 35 批 · 354 条）</h2>
+  <p class="sub">搜 ID 号、产品名、工序或问题类型（ID 号就是工位分布表里零件的编号，如 125＝4PR前盖内板）；不搜正文内容。状态筛「仅看未闭环」＝所有还挂着的条目。</p>
+  <div class="filters">
+    <input id="q" type="search" placeholder="搜 ID 号 / 产品名 / 工序 / 问题类型，如 125、4PR尾门下片、op20、卡废">
+    <select id="st"><option value="all">全部状态</option><option value="open">仅看未闭环</option><option value="done">仅看已闭环</option></select>
+    <select id="bt"><option value="all">全部批次</option></select>
+  </div>
+  <p class="count" id="cnt"></p>
+</section>
+<div id="list"></div>
+
+<script src="assets/data.js?v=5eedbc4b"></script>
+<script>
+const q=document.getElementById('q'),st=document.getElementById('st'),bt=document.getElementById('bt'),list=document.getElementById('list'),cnt=document.getElementById('cnt');
+const ID_NAMES={};
+LEDGER.batches.forEach(b=>b.products.forEach(p=>(p.ids||[]).forEach(v=>{
+  ID_NAMES[v]=ID_NAMES[v]||[];
+  if(ID_NAMES[v].indexOf(p.name)<0)ID_NAMES[v].push(p.name);
+})));
+LEDGER.batches.forEach((b,i)=>{const o=document.createElement('option');o.value=i;o.textContent=b.date+(b.wd?'（'+b.wd+'）':'')+' '+b.shift;bt.appendChild(o);});
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function evidThumbs(ev){
+  if(!ev)return '';
+  const ks=(String(ev).toUpperCase().match(/[PV]\d+/g)||[]);
+  if(!ks.length)return '　证据 '+esc(ev);
+  return '<div class="evis">'+ks.map(k=>{
+    const src=(k.charAt(0)==='V')?'media/v/'+k+'.jpg':'media/p/'+k+'.jpg';
+    return '<img src="'+src+'" alt="'+k+'" loading="lazy" onclick="openEvid(\''+k.charAt(0)+'\',\''+k+'\')" onerror="this.style.display=\'none\'">';
+  }).join('')+'</div>';
+}
+(function(){
+  const css='.evis{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 4px}'
+   +'.notelink{margin-top:8px;font-size:13px}'
+   +'.notelink a{display:inline-block;background:#eef4ff;border:1px solid #bcd3f7;color:#1c4f9c;padding:5px 10px;border-radius:8px;text-decoration:none;font-weight:700}'
+   +'.evis img{width:108px;height:auto;border-radius:8px;border:1px solid #d7dde5;cursor:zoom-in;display:block;background:#f4f6f9}'
+   +'#evlb{position:fixed;inset:0;background:rgba(10,16,24,.96);z-index:120;display:none;overflow:auto;padding:10px 12px 20px}'
+   +'#evlb.on{display:block}'
+   +'#evlb img,#evlb video{max-width:100%;display:block;margin:6px auto 0;border-radius:6px;background:#fff}'
+   +'#evlb.actual img{max-width:none;width:auto;margin:6px 0 0}'
+   +'#evlb.actual #evbody{overflow:auto}'
+   +'#evlb .bar{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;gap:8px;color:#fff;font-size:13px;padding:4px 0 8px;background:linear-gradient(rgba(10,16,24,.96),rgba(10,16,24,.75))}'
+   +'#evlb #evtitle{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}'
+   +'#evlb .bar>span:last-child{flex:0 0 auto;white-space:nowrap}'
+   +'#evlb .bar a{color:#fff;font-size:13px;margin:0 6px;text-decoration:underline}'
+   +'#evlb .bar button{font:inherit;font-size:13px;padding:5px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.14);color:#fff;cursor:pointer;margin-left:5px}';
+  const st=document.createElement('style');st.textContent=css;document.head.appendChild(st);
+  const lb=document.createElement('div');lb.id='evlb';
+  lb.innerHTML='<div class="bar"><span id="evtitle"></span><span><button id="evfit">1:1 原图</button><a id="evopen" target="_blank" rel="noopener">下载</a><button id="evclose">关闭</button></span></div><div id="evbody"></div>';
+  document.body.appendChild(lb);
+  document.getElementById('evfit').onclick=function(){
+    lb.classList.toggle('actual');
+    this.textContent = lb.classList.contains('actual') ? '适应屏幕' : '1:1 原图';
+  };
+  const closer=function(){lb.classList.remove('on');lb.classList.remove('actual');document.getElementById('evfit').textContent='1:1 原图';document.getElementById('evbody').innerHTML='';document.body.style.overflow='';};
+  document.getElementById('evclose').onclick=closer;
+  lb.addEventListener('click',function(e){if(e.target===lb)closer();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('on'))closer();});
+  window.openEvid=function(kind,key){
+    const body=document.getElementById('evbody');
+    document.getElementById('evtitle').textContent='证据 '+key+'（点背景或关闭返回）';
+    if(kind==='V'){
+      body.innerHTML='<video src="media/v/'+key+'.mp4" controls autoplay playsinline></video>';
+      document.getElementById('evopen').href='media/v/'+key+'.mp4';
+    }else{
+      body.innerHTML='<img src="media/p/'+key+'.jpg" alt="'+key+'">';
+      document.getElementById('evopen').href='media/p/'+key+'.jpg';
+    }
+    lb.classList.add('on');document.body.style.overflow='hidden';
+  };
+})();
+function render(){
+  const kw=q.value.trim().toLowerCase(),sv=st.value,bv=bt.value;
+  const idOnly=(/^\d{2,3}$/.test(kw))?parseInt(kw,10):null;
+  const idKws=(idOnly!==null&&ID_NAMES[idOnly])?ID_NAMES[idOnly]:[];
+  // 输产品名时，把「同一个 ID 的另一种写法」也一起算（如 4PR尾门下片 = 4PR尾门外板下片，同为 127）
+  let kwIds=[];
+  if(kw&&idOnly===null){
+    LEDGER.batches.forEach(b=>b.products.forEach(p=>{
+      if(String(p.name).toLowerCase().indexOf(kw)>=0) (p.ids||[]).forEach(v=>{if(kwIds.indexOf(v)<0)kwIds.push(v)});
+    }));
+  }
+  let shown=0,probs=0,opens=0,html='';
+  LEDGER.batches.forEach((b,i)=>{
+    if(bv!=='all'&&String(i)!==bv)return;
+    let inner='',bcount=0,bopen=0,pnames=[];
+    b.products.forEach(p=>{
+      const pname=p.name.toLowerCase();
+      const pids=(p.ids||[]);
+      const idHit=(idOnly!==null&&pids.indexOf(idOnly)>=0);
+      if(idOnly!==null&&!idHit)return;   // 输 ID：只看这个零件本身，别的件顺口提到它也不算
+      const nameHit=(kw&&idOnly===null)?(pname.indexOf(kw)>=0||(kwIds.length>0&&kwIds.some(v=>pids.indexOf(v)>=0))):false;
+      let ph='',pc=0,po=0;
+      p.problems.forEach(x=>{
+        const open=x.open;
+        if(sv==='open'&&!open)return;
+        if(sv==='done'&&open)return;
+        if(kw&&idOnly===null&&!nameHit){
+          // fgq 2026-11-07 定：不搜正文（现象/措施/状态），只搜 产品名 + 问题类型 + 工序
+          const hay=(x.type||''+' '+x.proc||'').toLowerCase();
+          if(hay.indexOf(kw)<0)return;
+        }
+        pc++;if(open)po++;
+        ph+='<div class="prob '+(open?'openp':'')+'"><div class="t"><span class="tag type">'+esc(x.type||'未分类')+'</span>'+esc(x.proc)+'</div>'+
+            '<div class="d"><span class="lbl">现象：</span>'+esc(x.desc)+'</div>'+evidThumbs(x.evid)+
+            '<div class="a"><span class="lbl">措施：</span>'+esc(x.action)+'</div>'+
+            '<div class="s"><span class="tag '+(open?'open':'done')+'">'+esc(x.status||'—')+'</span>'+
+            (x.time?' 耗时 '+esc(x.time):'')+'</div>'+
+            (x.note?'<div class="notelink"><a href="notes/'+esc(x.note)+'.html">📄 学习分析笔记 · 见技术笔记</a></div>':'')+'</div>';
+      });
+      if(!pc&&kw)return;
+      bcount+=pc;bopen+=po;pnames.push(p.name);
+      const spmTxt=(p.spm_th&&p.spm_ac)?('SPM '+p.spm_th.toFixed(1)+' / ASPM '+p.spm_ac.toFixed(2)+'（达成 '+Math.round(p.spm_ac/p.spm_th*100)+'%）'):'';
+      const ln1=[p.speed?'线速 '+p.speed:'',p.time?'生产 '+p.time:'',p.qty?p.qty+' 件':''].filter(Boolean).join('　·　');
+      const ln3=[('首末件 '+(p.first||'—')),('分区 '+(p.zone||'—')),('抽检 '+(p.spot||'—'))].filter(Boolean).join('　·　');
+      const facts=[ln1,spmTxt,ln3].filter(Boolean).map(function(x){return '<span class="fline">'+esc(x)+'</span>'}).join('');
+      const idbadge=pids.length?('<span class="idb'+(pids.length>1?' multi':'')+'">'+pids.map(v=>'ID '+v).join(' / ')+'</span>'):'';
+      inner+='<details class="prod"><summary class="phead"><div class="pname">'+esc(p.name)+idbadge+'</div>'+
+             '<div class="facts">'+facts+'</div></summary><div class="pbody">'+
+             (ph||'<div class="prob"><span style="color:#6b7684">本批次无符合条件的问题</span></div>')+'</div></details>';
+    });
+    if(!inner)return;
+    shown++;probs+=bcount;opens+=bopen;
+    html+='<details class="batch"'+(bv!=='all'?' open':'')+'><summary><span class="d">'+esc(b.date)+(b.wd?'（'+esc(b.wd)+'）':'')+' · '+esc(b.shift)+'</span>'+
+          '<span class="ln">'+esc(pnames.join('、'))+'</span>'+
+          '<span class="tag '+(bopen?'open':'done')+'">'+bcount+' 条 / 挂 '+bopen+'</span></summary>'+inner+'</details>';
+  });
+  list.innerHTML=html||'<section class="card"><p style="color:#6b7684">没有匹配的记录，换个关键词试试。</p></section>';
+  // 点批次的「N 条 / 挂 M」只展开这一批的产品速览（三行），不再自动把每个产品的问题一起拉开（fgq 2026-11-11 定）
+  const idname=(idOnly!==null&&LEDGER.idmap&&LEDGER.idmap[String(idOnly)])?('ID '+idOnly+' = '+LEDGER.idmap[String(idOnly)]+'（只看该零件本身）　'):'';
+  cnt.textContent=idname+'命中 '+shown+' 个批次，'+probs+' 条问题，其中未闭环 '+opens+' 条。';
+}
+[q,st,bt].forEach(el=>el.addEventListener('input',render));
+render();
+</script>
+<footer><b>冯国庆 · H0362</b><br>冲压车间质量工作台账 · 页面内容随台账更新<br>口径：现场记录原话为准，跨批次对比一律折算「分/百件」<div style="margin-top:10px;font-size:12.5px">相关站点：<a href="https://tpm.stamping.yilufa.site/" target="_blank" rel="noopener" style="color:#1f6feb;text-decoration:none">TPM 设备标签库</a></div></footer>
+</div></body></html>

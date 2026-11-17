@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>工位分布汇总 · 冲压车间质量工作台账（备用站）</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.sheet{background:#fff;border:1px solid #e3e8ef;border-radius:14px;padding:10px;margin:12px 0}
+.sheet img{width:100%;height:auto;display:block;border-radius:8px;cursor:zoom-in}
+.hint{color:#6b7684;font-size:13px;text-align:center;margin:6px 0 0}
+#lb{position:fixed;inset:0;background:rgba(10,16,24,.94);display:none;z-index:99;overflow:auto;padding:12px;-webkit-overflow-scrolling:touch}
+#lb.on{display:block}
+#lb img{width:auto;max-width:none;height:auto;display:block;margin:0 auto;border-radius:6px}
+#lb .bar{position:fixed;top:0;left:0;right:0;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;color:#fff;font-size:14px;background:linear-gradient(rgba(0,0,0,.55),transparent)}
+#lb .bar button{font:inherit;font-size:13px;padding:5px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;margin-left:8px;cursor:pointer}
+.legend{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:12px 0}
+@media(max-width:640px){.legend{grid-template-columns:1fr}}
+.lg{background:#f8fafc;border:1px solid #e3e8ef;border-radius:10px;padding:10px 12px;font-size:14px}
+.lg b{display:block;font-size:13.5px;margin-bottom:2px}
+.lg small{color:#6b7684;font-size:13px}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;vertical-align:middle;margin-right:5px}
+.sw.y{background:#f5e08a}.sw.b{background:#bcd7ee}.sw.r{background:#c0392b}
+.idt{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}
+.idt th{background:#f1f5f9;color:#41505f;font-size:12.5px;font-weight:700;padding:6px 8px;text-align:left;border:1px solid #e3e8ef}
+.idt td{border:1px solid #eef2f7;padding:5px 8px}
+.idt tr.gh td{background:#e9f0f8;color:#274a6d;font-weight:800;font-size:13px;letter-spacing:.02em}
+.idt td.idn{width:12%;font-weight:800;color:#b3253a;font-variant-numeric:tabular-nums;white-space:nowrap}
+.idt td.nmn{width:38%}
+@media(max-width:520px){.idt{font-size:12.5px}.idt td,.idt th{padding:4px 5px}}
+</style>
+</head><body>
+<header class="top"><div class="wrap">
+<p class="kicker">Stamping Workshop · Station Map</p>
+<h1>工位分布汇总（备用站）</h1>
+<p class="lede">4 号机空工位调整预案：每个零件在 1～6 号机各走哪几道工序、哪台机是空工位、需不需要落托架或垫块、高架货位号是多少——换型前先看这一张。</p>
+<div class="meta"><span>冯国庆 · H0362</span><span>按车型分组 · 覆盖 ID 101 起</span><span>以原图为准</span></div>
+<nav class="tabs">
+<a href="index.html">概览</a><a href="taizhang.html">生产台账</a><a href="tongji.html">统计分析</a>
+<a href="gongzuo.html">日常工作内容</a><a href="notes.html">技术学习笔记</a>
+<a href="loading.html">上料位置</a><a href="stations.html" class="on">工位分布</a><a href="codes.html">拨码对照</a><a href="media.html">成果展示</a>
+<a href="ask/" class="">客服问答</a>
+</nav>
+</div></header>
+<div class="to-main" style="display:flex;align-items:center;gap:8px;max-width:760px;margin:12px auto 0;padding:11px 14px;background:#fff6e5;border:1px solid #f0d59c;border-radius:11px;color:#8a5300;flex-wrap:wrap"><b style="font-size:13.5px;font-weight:800;margin-right:auto">当前为 GitHub 备用站</b><a href="https://stamping.yilufa.site/" style="text-decoration:none;background:#1f6feb;color:#fff;padding:7px 12px;border-radius:8px;font-size:12.5px;font-weight:700">主站</a></div>
+<div class="wrap">
+
+<section class="card">
+  <h2><span class="n">19</span>表怎么读</h2>
+  <table>
+    <tr><th style="width:32%">列</th><th>含义</th></tr>
+    <tr><td><b>车型</b></td><td>按车型分组（SHB、4PR 等），同一车型下的零件共用一段工位排布</td></tr>
+    <tr><td><b>名称 / ID 号</b></td><td>零件名与内部 ID（如左侧围 101），对零件别只看名字、要认 ID</td></tr>
+    <tr><td><b>拨码</b></td><td>设备侧的编码号，和上料那张定位卡的右下角编号同一套口径</td></tr>
+    <tr><td><b>拆垛</b></td><td>该零件在哪个拆垛手上料（4#、5#…）</td></tr>
+    <tr><td><b>高架货位号</b></td><td>料垛存放的高架库位</td></tr>
+    <tr><td><b>1～6 号机</b></td><td>每个零件在各台压机上走哪道工序（OP10／OP20／OP30／OP40／OP50），空格即该机不参与</td></tr>
+  </table>
+  <div class="legend">
+    <div class="lg"><b><span class="sw y"></span>黄色＝空工位</b><small>该机位不排这道工序；有的还标了「带垫块／简易托架／专用托架」，指的是空位上要落的工装。</small></div>
+    <div class="lg"><b><span class="sw b"></span>蓝色列＝4 号机与 5 号机</b><small>4 号机是这张预案的主角，5 号机跟着联动看，换型调工位先盯这两列。</small></div>
+    <div class="lg"><b><span class="sw r"></span>红色数字＝高架货位号</b><small>左右件常成对（1、2 / 3、4），取料时按这一列找垛位。具体分配口径以车间指令为准。</small></div>
+    <div class="lg"><b>用法</b><small>换型前按零件名或 ID 找到那一行 → 看 4 号机那格是空工位还是有工序 → 空位要落哪种托架/垫块 → 再去高架取对应货位。</small></div>
+  </div>
+</section>
+
+<section class="card">
+  <h2><span class="n">20</span>ID 号对照（42 个零件）</h2>
+  <p class="sub">按车型分组，ID 号 ↔ 零件名。台账页搜索框里直接输 ID 号（如 125）就能筛出这个零件的全部记录；ID 与拨码的换算见「拨码对照」页（拨码＝十六进制的 ID）。</p>
+  <table class="idt"><tr><th>ID</th><th>零件</th><th>ID</th><th>零件</th></tr><tr class="gh"><td colspan="4">SHB（轿车／猎装）</td></tr><tr><td class="idn">101</td><td class="nmn">左侧围（轿车）</td><td class="idn">102</td><td class="nmn">右侧围（轿车）</td></tr><tr><td class="idn">103</td><td class="nmn">左侧围（猎装）</td><td class="idn">104</td><td class="nmn">右侧围（猎装）</td></tr><tr><td class="idn">105</td><td class="nmn">左右翼子板</td><td class="idn">106</td><td class="nmn">左右前门外板</td></tr><tr><td class="idn">107</td><td class="nmn">左右前门内板</td><td class="idn">108</td><td class="nmn">左右后门外板</td></tr><tr><td class="idn">109</td><td class="nmn">左右后门内板</td><td class="idn">110</td><td class="nmn">前盖内外板</td></tr><tr><td class="idn">111</td><td class="nmn">尾门内外板（轿车）</td><td class="idn">112</td><td class="nmn">尾门内外板（猎装）</td></tr><tr><td class="idn">113</td><td class="nmn">尾门外板下片</td><td class="idn">114</td><td class="nmn">前地板</td></tr><tr><td class="idn">115</td><td class="nmn">后地板</td><td class="idn">116</td><td class="nmn">左右轮罩内板</td></tr><tr class="gh"><td colspan="4">4PR（IS4PR）</td></tr><tr><td class="idn">117</td><td class="nmn">左侧围</td><td class="idn">118</td><td class="nmn">右侧围</td></tr><tr><td class="idn">119</td><td class="nmn">翼子板</td><td class="idn">120</td><td class="nmn">前门外板</td></tr><tr><td class="idn">121</td><td class="nmn">前门内板</td><td class="idn">122</td><td class="nmn">后门外板</td></tr><tr><td class="idn">123</td><td class="nmn">后门内板</td><td class="idn">124</td><td class="nmn">前盖外板</td></tr><tr><td class="idn">125</td><td class="nmn">前盖内板</td><td class="idn">126</td><td class="nmn">尾门内外板</td></tr><tr><td class="idn">127</td><td class="nmn">尾门下片</td><td class="idn">128</td><td class="nmn">顶盖</td></tr><tr class="gh"><td colspan="4">4GR（IS4GR）</td></tr><tr><td class="idn">130</td><td class="nmn">左侧围</td><td class="idn">131</td><td class="nmn">右侧围</td></tr><tr><td class="idn">132</td><td class="nmn">翼子板</td><td class="idn">133</td><td class="nmn">前门外板</td></tr><tr><td class="idn">134</td><td class="nmn">后门内板</td><td class="idn">135</td><td class="nmn">后门外板</td></tr><tr><td class="idn">136</td><td class="nmn">前门内板</td><td class="idn">137</td><td class="nmn">前盖外板</td></tr><tr><td class="idn">138</td><td class="nmn">前盖内板</td><td class="idn">139</td><td class="nmn">前盖外板-2</td></tr><tr><td class="idn">140</td><td class="nmn">前盖内板-2</td><td class="idn">141</td><td class="nmn">尾门内外板</td></tr><tr><td class="idn">142</td><td class="nmn">尾门外板下片</td><td class="idn">143</td><td class="nmn">顶盖</td></tr></table>
+  <p class="hint" style="text-align:left;color:#6b7684">ID 号从工位分布原表逐行读出、并与拨码列交叉核对（如 125→7D、137→89）；两者有出入时以原表为准，告诉冯国庆改。</p>
+</section>
+
+<section class="card">
+  <h2><span class="n">21</span>预案原表</h2>
+  <p class="sub">点图全屏放大；手机上双指缩放看每格小字。表就是标准，本页只做展示与放大，不改字。</p>
+  <div class="sheet"><img id="sheet" src="media/stations/chart.jpg" alt="4号机空工位调整预案"></div>
+  <p class="hint">共 508 KB · 点开看全尺寸原图</p>
+  <p style="text-align:center;margin-top:10px"><a href="media/stations/chart_full.jpg" download>下载原尺寸图片（508 KB）</a></p>
+</section>
+
+<div id="lb"><div class="bar"><span>4号机空工位调整预案</span><span><a href="media/stations/chart_full.jpg" download style="color:#fff;font-size:13px">下载</a><button id="closelb">关闭</button></span></div><img src="media/stations/chart_full.jpg" alt=""></div>
+
+<footer><b>冯国庆 · H0362</b><br>冲压车间质量工作台账 · 工位分布汇总<br>以现场下发的预案原表为准，本页只做展示与放大<div style="margin-top:10px;font-size:12.5px">相关站点：<a href="https://tpm.stamping.yilufa.site/" target="_blank" rel="noopener" style="color:#1f6feb;text-decoration:none">TPM 设备标签库</a></div></footer>
+</div>
+<script>
+const lb=document.getElementById('lb');
+document.getElementById('sheet').addEventListener('click',()=>{lb.classList.add('on');document.body.style.overflow='hidden';});
+document.getElementById('closelb').addEventListener('click',()=>{lb.classList.remove('on');document.body.style.overflow='';});
+lb.addEventListener('click',e=>{if(e.target===lb){lb.classList.remove('on');document.body.style.overflow='';}});
+</script>
+</body></html>
