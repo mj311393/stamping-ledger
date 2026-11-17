@@ -22,8 +22,7 @@
 <a href="stations.html" class="">工位分布</a>
 <a href="codes.html" class="">拨码对照</a>
 <a href="media.html" class="">成果展示</a>
-<a href="https://stamping.yilufa.site/rec/">生产录入系统（测试中）</a>
-<a href="ask/" class="">客服问答</a>
+<a href="ask/" class="">客服问答</a><a href="https://stamping.yilufa.site/rec/">生产录入系统（测试中）</a>
 </nav>
 </div></header>
 <div class="to-main" style="display:flex;align-items:center;gap:8px;max-width:760px;margin:12px auto 0;padding:11px 14px;background:#fff6e5;border:1px solid #f0d59c;border-radius:11px;color:#8a5300;flex-wrap:wrap"><b style="font-size:13.5px;font-weight:800;margin-right:auto">当前为 GitHub 备用站</b><a href="https://stamping.yilufa.site/" style="text-decoration:none;background:#1f6feb;color:#fff;padding:7px 12px;border-radius:8px;font-size:12.5px;font-weight:700">主站</a></div>
@@ -44,6 +43,7 @@
 <script src="assets/data.js?v=752cdd15"></script>
 <script>
 const q=document.getElementById('q'),st=document.getElementById('st'),bt=document.getElementById('bt'),list=document.getElementById('list'),cnt=document.getElementById('cnt'),foldAll=document.getElementById('foldAll');
+let foldMode=null;   // 'all' 全展开 / 'none' 全收起 / null 默认（批次收起）
 function syncFoldBtn(){
   if(!foldAll)return;
   const ds=list.querySelectorAll('details.batch,details.prod');
@@ -53,8 +53,9 @@ function syncFoldBtn(){
 if(foldAll)foldAll.onclick=function(){
   const ds=list.querySelectorAll('details.batch,details.prod');
   let anyClosed=false; ds.forEach(d=>{if(!d.open)anyClosed=true});
-  ds.forEach(d=>{d.open=anyClosed});
-  syncFoldBtn();
+  foldMode = anyClosed ? 'all' : 'none';
+  render();            // 整体重排一次，避免一次性 toggle 上百个 details 产生渲染错乱
+  window.scrollTo({top: Math.max(0, list.offsetTop - 8), behavior:'smooth'});
 };
 document.addEventListener('toggle',function(e){
   if(e.target && (e.target.matches && e.target.matches('details.batch,details.prod'))) syncFoldBtn();
@@ -161,13 +162,13 @@ function render(){
       const ln3=[('首末件 '+(p.first||'—')),('分区 '+(p.zone||'—')),('抽检 '+(p.spot||'—'))].filter(Boolean).join('　·　');
       const facts=[ln1,spmTxt,ln3].filter(Boolean).map(function(x){return '<span class="fline">'+esc(x)+'</span>'}).join('');
       const idbadge=pids.length?('<span class="idb'+(pids.length>1?' multi':'')+'">'+pids.map(v=>'ID '+v).join(' / ')+'</span>'):'';
-      inner+='<details class="prod"><summary class="phead"><div class="pname">'+esc(p.name)+idbadge+'</div>'+
+      inner+='<details class="prod"'+(foldMode==='all'?' open':'')+'><summary class="phead"><div class="pname">'+esc(p.name)+idbadge+'</div>'+
              '<div class="facts">'+facts+'</div></summary><div class="pbody">'+
              (ph||'<div class="prob"><span style="color:#6b7684">本批次无符合条件的问题</span></div>')+'</div></details>';
     });
     if(!inner)return;
     shown++;probs+=bcount;opens+=bopen;
-    html+='<details class="batch"'+(bv!=='all'?' open':'')+'><summary><span class="d">'+esc(b.date)+(b.wd?'（'+esc(b.wd)+'）':'')+' · '+esc(b.shift)+'</span>'+
+    html+='<details class="batch"'+(foldMode==='none' ? '' : (foldMode==='all' ? ' open' : (bv!=='all'?' open':'')))+'><summary><span class="d">'+esc(b.date)+(b.wd?'（'+esc(b.wd)+'）':'')+' · '+esc(b.shift)+'</span>'+
           '<span class="ln">'+esc(pnames.join('、'))+'</span>'+
           '<span class="tag '+(bopen?'open':'done')+'">'+bcount+' 条 / 挂 '+bopen+'</span></summary>'+inner+'</details>';
   });
@@ -177,7 +178,7 @@ function render(){
   cnt.textContent=idname+'命中 '+shown+' 个批次，'+probs+' 条问题，其中未闭环 '+opens+' 条。';
   syncFoldBtn();
 }
-[q,st,bt].forEach(el=>el.addEventListener('input',render));
+[q,st,bt].forEach(el=>el.addEventListener('input',function(){foldMode=null;render();}));
 render();
 </script>
 <footer><b>冯国庆 · H0362</b><br>冲压车间质量工作台账 · 页面内容随台账更新<br>口径：现场记录原话为准，跨批次对比一律折算「分/百件」<div style="margin-top:10px;font-size:12.5px">相关站点：<a href="https://tpm.stamping.yilufa.site/" target="_blank" rel="noopener" style="color:#1f6feb;text-decoration:none">TPM 设备标签库</a></div></footer>
