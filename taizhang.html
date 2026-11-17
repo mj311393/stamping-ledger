@@ -5,7 +5,7 @@
 <meta name="robots" content="noindex,nofollow">
 <meta name="description" content="按批次逐条列出产品与问题原文、处置措施、当前状态与耗时。">
 <title>生产台账 · 冲压车间质量工作台账（备用站）</title>
-<link rel="stylesheet" href="assets/style.css?v=9c2a7a05">
+<link rel="stylesheet" href="assets/style.css?v=d3e7b0d0">
 </head><body>
 <header class="top"><div class="wrap">
 <p class="kicker">Stamping Workshop · Quality Log</p>
@@ -30,7 +30,7 @@
 <div class="wrap">
 
 <section class="card">
-  <h2><span class="n">05</span>生产台账（全部 35 批 · 360 条）</h2>
+  <h2><span class="n">05</span>生产台账（全部 35 批 · 360 条）<button class="foldbtn" id="foldAll">全部展开</button></h2>
   <p class="sub">搜 ID 号、产品名、工序或问题类型（ID 号就是工位分布表里零件的编号，如 125＝4PR前盖内板）；不搜正文内容。状态筛「仅看未闭环」＝所有还挂着的条目。</p>
   <div class="filters">
     <input id="q" type="search" placeholder="搜 ID 号 / 产品名 / 工序 / 问题类型，如 125、4PR尾门下片、op20、卡废">
@@ -43,7 +43,22 @@
 
 <script src="assets/data.js?v=752cdd15"></script>
 <script>
-const q=document.getElementById('q'),st=document.getElementById('st'),bt=document.getElementById('bt'),list=document.getElementById('list'),cnt=document.getElementById('cnt');
+const q=document.getElementById('q'),st=document.getElementById('st'),bt=document.getElementById('bt'),list=document.getElementById('list'),cnt=document.getElementById('cnt'),foldAll=document.getElementById('foldAll');
+function syncFoldBtn(){
+  if(!foldAll)return;
+  const ds=list.querySelectorAll('details.batch,details.prod');
+  let anyClosed=false; ds.forEach(d=>{if(!d.open)anyClosed=true});
+  foldAll.textContent = anyClosed ? '全部展开' : '全部收起';
+}
+if(foldAll)foldAll.onclick=function(){
+  const ds=list.querySelectorAll('details.batch,details.prod');
+  let anyClosed=false; ds.forEach(d=>{if(!d.open)anyClosed=true});
+  ds.forEach(d=>{d.open=anyClosed});
+  syncFoldBtn();
+};
+document.addEventListener('toggle',function(e){
+  if(e.target && (e.target.matches && e.target.matches('details.batch,details.prod'))) syncFoldBtn();
+},true);
 const ID_NAMES={};
 LEDGER.batches.forEach(b=>b.products.forEach(p=>(p.ids||[]).forEach(v=>{
   ID_NAMES[v]=ID_NAMES[v]||[];
@@ -160,6 +175,7 @@ function render(){
   // 点批次的「N 条 / 挂 M」只展开这一批的产品速览（三行），不再自动把每个产品的问题一起拉开（fgq 2026-11-11 定）
   const idname=(idOnly!==null&&LEDGER.idmap&&LEDGER.idmap[String(idOnly)])?('ID '+idOnly+' = '+LEDGER.idmap[String(idOnly)]+'（只看该零件本身）　'):'';
   cnt.textContent=idname+'命中 '+shown+' 个批次，'+probs+' 条问题，其中未闭环 '+opens+' 条。';
+  syncFoldBtn();
 }
 [q,st,bt].forEach(el=>el.addEventListener('input',render));
 render();
