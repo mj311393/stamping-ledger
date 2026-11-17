@@ -41,7 +41,9 @@ p{margin:8px 0}ul,ol{margin:8px 0;padding-left:22px}li{margin:5px 0}
 .filters input,.filters select{font:inherit;font-size:14px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
 .filters input{flex:1;min-width:180px}
 .count{color:var(--sub);font-size:13px;margin:6px 0 0}
-.foldbtn{float:right;font:inherit;font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:999px;
+.h2row{display:flex;align-items:center;gap:10px}
+.h2row h2{flex:1;min-width:0;margin:0}
+.foldbtn{flex:0 0 auto;white-space:nowrap;font:inherit;font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:999px;
   border:1px solid #b6d2ea;background:#eaf4fd;color:#0f4c81;cursor:pointer}
 .foldbtn:active{background:#d8eafa}
 .batch{border:1px solid #cdd8e3;border-radius:14px;margin:12px 0;overflow:hidden;background:#fff;
